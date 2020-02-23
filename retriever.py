@@ -4,8 +4,15 @@ from lxml import html
 
 def retrieve_dict():
 
-    print("Please input a url from Recipes.com")
+    print("Please input a url from Recipes.com OR a search term")
     url = input()
+    if "http" not in url:
+        url = 'https://www.allrecipes.com/search/results/?wt=%s&sort=re' % (url.replace(' ', '+'))
+        print("SEARCH PAGE URL", url)
+        search_page = requests.get(url)
+        search_data = html.fromstring(search_page.content)
+        url = search_data.xpath('//div[@class="grid-card-image-container"]//a/@href')[0]
+
     #Default to a random recipe if blank, for testing
     if url=="":
         url = 'https://www.allrecipes.com/recipe/229957/slow-cooker-au-jus-pot-roast/'
