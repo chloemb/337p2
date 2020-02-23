@@ -2,7 +2,7 @@ import fractions
 import re
 
 measurement_bank = ('teaspoon', 'tablespoon', 'cup', 'lb', 'package', 'pinch', 'sprinkle', 'ounce', 'oz', 'stalk',
-                    'whole', 'sprig', 'leaf', 'bottle', 'liter')
+                    'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound')
 
 def parse_ingredients(ingredients):
     ingredients_parsed = {}
