@@ -1,5 +1,9 @@
 from retriever import retrieve_dict
+from ing_parser import parse_ingredients
 
 recipe = retrieve_dict()
 #Returns a dict. "Name", "Ingredients" and "Procedure" return appropriate information in a list (except name. Name is not in a list)
-print(recipe)
+
+parsed_ingredients = parse_ingredients(recipe['Ingredients'])
+print("RETRIEVED:", recipe, '\n')
+print("PARSED INGREDIENTS", parsed_ingredients, '\n')
