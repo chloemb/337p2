@@ -5,5 +5,5 @@ recipe = retrieve_dict()
 #Returns a dict. "Name", "Ingredients" and "Procedure" return appropriate information in a list (except name. Name is not in a list)
 
 parsed_ingredients = parse_ingredients(recipe['Ingredients'])
-print("RETRIEVED:", recipe, '\n')
+print("\nRETRIEVED:", recipe, '\n')
 print("PARSED INGREDIENTS", parsed_ingredients, '\n')
