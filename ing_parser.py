@@ -1,5 +1,6 @@
 import fractions
 import re
+import unicodedata
 
 measurement_bank = ('teaspoon', 'tablespoon', 'cup', 'lb', 'package', 'pinch', 'sprinkle', 'ounce', 'oz', 'stalk',
                     'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound', 'can', 'clove', 'head')
@@ -22,13 +23,21 @@ def parse_ingredients(ingredients):
         while i < len(words_0)-1:
             # see if word is a fraction/number
             try:
-                frac = fractions.Fraction(words_0[i])
+                try:
+                    frac = unicodedata.numeric(words_0[i])
+                    frac = fractions.Fraction(frac)
+                except:
+                    frac = fractions.Fraction(words_0[i])
             except:
                 frac = False
 
             # see if next word is a fraction/number
             try:
-                next_frac = fractions.Fraction(words_0[i+1])
+                try:
+                    next_frac = unicodedata.numeric(words_0[i+1])
+                    next_frac = fractions.Fraction(next_frac)
+                except:
+                    next_frac = fractions.Fraction(words_0[i+1])
             except:
                 next_frac = False
 
