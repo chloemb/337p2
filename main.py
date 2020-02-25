@@ -15,8 +15,13 @@ for deletething in deletelist:
     parsed_ingredients.pop(deletething)
 
 parsed_steps = parse_steps(recipe['Procedure'], parsed_ingredients)
-#parsed_steps = parse_steps(recipe['Procedure'])
 
-print("\nRETRIEVED:", recipe, '\n')
+# print("\nRETRIEVED:", recipe, '\n')
 print("PARSED INGREDIENTS", parsed_ingredients, '\n')
 print("PARSED STEPS", parsed_steps, '\n')
+
+print("Transforming", recipe['Name'], ". Please enter the number of the transformation you'd like to apply:")
+print("1: Double Ingredients \n")
+print("2: Halve Ingredients \n")
+print("3: Change cuisine to ___\n")
+transform = input()
