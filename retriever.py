@@ -32,8 +32,10 @@ def retrieve_dict():
     data = html.fromstring(page.content)
 
     #Get Title
-    title = data.xpath('/html/body/div[1]/div[2]/div/div[3]/section/div[1]/div/section[2]/h1')[0].text
-
+    try:
+        title = data.xpath('/html/body/div[1]/div[2]/div/div[3]/section/div[1]/div/section[2]/h1')[0].text
+    except: 
+        title = data.xpath('/html/body/div[1]/div/main/div[1]/div[2]/div[1]/div[1]/div[1]/div/h1')[0].text
     #Gather ingredients
     ingredientlist=[]
 
@@ -55,6 +57,26 @@ def retrieve_dict():
         i+=1
         changeu = False
     ingredientlist = ingredientlist[:-1]
+    #print("makes it here")
+    #handle video sites
+    if ingredientlist == []:
+        i,ul = 1,1
+        while True:
+            #print('/html/body/div[1]/div[2]/div/div[3]/section/section[1]/div[2]/ul[1]/li[' + str(i) + ']/label/span/text()')
+            ingredient = data.xpath('/html/body/div[1]/div/main/div[1]/div[2]/div[1]/div[2]/div[2]/div[4]/section[1]/fieldset/ul/li['+str(i)+']/label/span/span/text()')
+            if ingredient == []:
+                print(i)
+                ul += 1
+                i = 1
+                break
+                if changeu:
+                    break
+                changeu = True
+                continue
+            ingredientlist.append(ingredient[0].strip().splitlines()[0])
+            i+=1
+            changeu = False
+       
 
     steplist = []
     changeu = False
@@ -67,5 +89,17 @@ def retrieve_dict():
         steplist.append(step[0].text.splitlines()[0])
         i+=1
         changeu = False
+
+    if steplist == []:
+        i,ul = 1,1
+        while True:
+            #print('/html/body/div[1]/div[2]/div/div[3]/section/section[1]/div[2]/ul[1]/li[' + str(i) + ']/label/span/text()')
+            step = data.xpath('/html/body/div[1]/div/main/div[1]/div[2]/div[1]/div[2]/div[2]/section[1]/fieldset/ul/li['+str(i)+']/div[1]/p')
+            
+            if step == []:
+                break
+            steplist.append(step[0].text.splitlines()[0])
+            i+=1
+            changeu = False
     ret = {'Name':title,"Ingredients":ingredientlist,"Procedure":steplist}
     return ret
