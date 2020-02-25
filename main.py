@@ -14,8 +14,9 @@ for ingredient,details in parsed_ingredients.items():
 for deletething in deletelist:
     parsed_ingredients.pop(deletething)
 
-parse_steps(recipe['Procedure'], parsed_ingredients)
+parsed_steps = parse_steps(recipe['Procedure'], parsed_ingredients)
 #parsed_steps = parse_steps(recipe['Procedure'])
 
 print("\nRETRIEVED:", recipe, '\n')
 print("PARSED INGREDIENTS", parsed_ingredients, '\n')
+print("PARSED STEPS", parsed_steps, '\n')

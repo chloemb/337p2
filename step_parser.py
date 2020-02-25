@@ -78,4 +78,4 @@ def parse_steps(steps, ingredients):
 
             step_parsed[''.join(sentence)] = sentence_dict
         steps_by_number[''.join(step)] = step_parsed
-    print(steps_by_number)
+    return steps_by_number
