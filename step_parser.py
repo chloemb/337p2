@@ -28,15 +28,7 @@ def parse_steps(steps, ingredients):
             timing = ''
             part_of_time = False
             most_recent_adverb = ''
-            most_recent_adjective = ''
-            possible_compound = ''
-            #allows us to set things within the key for their associated verb even several words later
             for pairs in tagged:
-                print(pairs)
-                if pairs[1] == 'ADJ':
-                    most_recent_adjective = pairs[0]
-                if pairs[1] == 'ADV':
-                    most_recent_adverb = pairs[0]
                 if start_verb is True:
                     if part_of_time is True:
                         # otherwise, add it to time
@@ -44,38 +36,44 @@ def parse_steps(steps, ingredients):
                     if pairs[0] in list_of_time_words:
                         part_of_time = True
                         timing = timing + " " + pairs[0]
-                    if pairs[1] == 'NN' or "JJ":
-                        if most_recent_adjective + pairs[0] in ingredients:
-                            old_ingreds = stored_info["Ingredients"]
-                            old_ingreds.append(most_recent_adjective + pairs[0])
-                            most_recent_adjective = ''
-                            stored_info.update({"Ingredients": old_ingreds})
-                            # if the noun is an ingredient, add it to ingredients
-                        elif most_recent_adjective + possible_compound + pairs[0] in ingredients:
-                            old_ingreds = stored_info["Ingredients"]
-                            old_ingreds.append(most_recent_adjective + possible_compound + pairs[0])
-                            most_recent_adjective = ''
-                            possible_compound = ''
-                            stored_info.update({"Ingredients": old_ingreds})
-                        else:
-                            possible_compound = pairs[0] + " "
                         #insert something here to get tools as well
                         #stored_info.update({"Tools": tool})
                     if pairs[1] == ':' or pairs[1] == '.':
                         #if a search hits something that indicates its a new sentence, reset search
-                        print(stored_info)
                         stored_info.update({"Times": timing})
+                        stored_info.update({"Related_Verbs": verb_list})
                         sentence_dict[''.join(most_recent_adverb + most_recent_verb)] = stored_info
+                        print(sentence_dict)
                         most_recent_adverb = ''
                         start_verb = False
                         part_of_time = False
+                    if 'VB' in pairs[1] and pairs[1] != 'VBZ' \
+                            and pairs[1] != 'VBD' and pairs[1] != 'VBN' \
+                            and pairs[1] != "VBP" and pairs[1] != 'VBG':
+                        verb_list.append(pairs[0])
 
                 else:
-                    if pairs[1] == 'VB' or 'VBD' or "VBZ":
+                    if pairs[1] != "RB" and pairs[1] != ':' and pairs[1] != '.':
                         start_verb = True
                         most_recent_verb = pairs[0]
-                        stored_info = {"Ingredients": [], "Tools": [], "Times": []}
+                        stored_info = {"Ingredients": [], "Tools": [], "Times": [], "Related_Verbs": []}
+                        ingredient_list = []
+                        verb_list = []
+                        for ingredient in ingredients:
+                            if ingredient not in ingredient_list:
+                                if ingredient in sentence:
+                                    ingredient_list.append(ingredient)
+                            if ingredient not in ingredient_list:
+                                if len(ingredient.split()) > 1:
+                                    holder_ingredient = ingredient.split()[1]
+                                    if holder_ingredient in sentence:
+                                        ingredient_list.append(ingredient)
+                        stored_info.update({"Ingredients": ingredient_list})
+                    if pairs[1] == 'RB':
+                        most_recent_adverb = pairs[0] + " "
 
             step_parsed[''.join(sentence)] = sentence_dict
+            if sentence == '.':
+                del step_parsed['.']
         steps_by_number[''.join(step)] = step_parsed
     return steps_by_number
