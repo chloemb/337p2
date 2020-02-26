@@ -1,5 +1,6 @@
 import fractions
 import re
+import unicodedata
 
 measurement_bank = ('teaspoon', 'tablespoon', 'cup', 'lb', 'package', 'pinch', 'sprinkle', 'ounce', 'oz', 'stalk',
                     'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound', 'can', 'clove', 'head')
@@ -22,27 +23,37 @@ def parse_ingredients(ingredients):
         while i < len(words_0)-1:
             # see if word is a fraction/number
             try:
-                frac = fractions.Fraction(words_0[i])
+                try:
+                    frac = unicodedata.numeric(words_0[i])
+                    frac = fractions.Fraction(frac)
+                except:
+                    frac = fractions.Fraction(words_0[i])
             except:
                 frac = False
 
             # see if next word is a fraction/number
             try:
-                next_frac = fractions.Fraction(words_0[i+1])
+                try:
+                    next_frac = unicodedata.numeric(words_0[i+1])
+                    next_frac = fractions.Fraction(next_frac)
+                except:
+                    next_frac = fractions.Fraction(words_0[i+1])
             except:
                 next_frac = False
 
             # if this word is a quantity
             if frac:
+                quantity = frac
                 not_words.append(words_0[i])
                 # if mixed number
                 if next_frac and '/' in words_0[i+1]:
-                    item_dict.setdefault('Quantity', []).append(' '.join([words_0[i], words_0[i+1]]))
+                    quantity += next_frac
+                    item_dict.setdefault('Quantity', []).append(quantity)
                     not_words.append(words_0[i+1])
                     check_measure = 2
                 # if not mixed number
                 else:
-                    item_dict.setdefault('Quantity', []).append(words_0[i])
+                    item_dict.setdefault('Quantity', []).append(quantity)
                     check_measure = 1
                 # find measurement associated with this quantity
                 if any(measure_word in words_0[i+check_measure] for measure_word in measurement_bank):
