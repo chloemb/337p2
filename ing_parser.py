@@ -84,3 +84,5 @@ def parse_ingredients(ingredients):
             ing_to_add += "*"
         ingredients_parsed[ing_to_add] = item_dict
     return ingredients_parsed
+
+    

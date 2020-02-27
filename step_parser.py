@@ -36,8 +36,9 @@ def parse_steps(steps, ingredients):
                     if pairs[0] in list_of_time_words:
                         part_of_time = True
                         timing = timing + " " + pairs[0]
+                    if pairs[0] in toollist:
                         #insert something here to get tools as well
-                        #stored_info.update({"Tools": tool})
+                        stored_info.update({"Tools": pairs[0]})
                     if pairs[1] == ':' or pairs[1] == '.':
                         #if a search hits something that indicates its a new sentence, reset search
                         stored_info.update({"Times": timing})

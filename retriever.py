@@ -3,7 +3,6 @@ import sys
 from lxml import html
 
 def retrieve_dict():
-
     print("Please input a url from Recipes.com OR a search term")
     url = input()
     if "http" not in url and not url=="":
@@ -103,3 +102,5 @@ def retrieve_dict():
             changeu = False
     ret = {'Name':title,"Ingredients":ingredientlist,"Procedure":steplist}
     return ret
+
+    
