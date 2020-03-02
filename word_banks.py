@@ -73,8 +73,7 @@ grains = ['amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'einkorn', 'farro
           'kamut', 'kañiwa', 'millet', 'oats', 'quinoa', 'rice', 'rye', 'sorghum', 'milo', 'spelt', 'teﬀ', 'triticale',
           'wheat', 'wild rice', 'flour', 'couscous']
 dairy = ['milk', 'butter', 'cheese', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise']
-carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta']
-carbs.extend(pasta)
+carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta'] + pasta
 toppings = ['sauce', 'sprinkle', 'garnish']
 
 not_protein = ['bouillon', 'broth']
@@ -109,7 +108,7 @@ not_vegetarian = meat
 cuisines = {
     'italian':
         {
-            'protein': ['beef', 'prosciutto', 'chicken', 'salami', 'sausage'],
+            'protein': ['beef', 'prosciutto', 'chicken', 'salami', 'sausage', 'eggplant'],
             'veggies': ['tomato', 'zucchini', 'cucumber', 'mushroom', 'broccolini', 'rabe', 'arugula', 'squash'],
             'fruits': [],
             'seasonings': ['garlic', 'parsley', 'basil', 'rosemary', 'oregano', 'caper', 'lemon'],
@@ -121,20 +120,23 @@ cuisines = {
 }
 
 # basic food/method descriptions
-descriptor_thing = {'healthy_method': ['boil', 'steam'],
-                    'healthy_food': ['chicken'],
-                    'unhealthy_methods': ['saute', 'fry', 'roast'],
-                    'unhealthy_food': ['butter', 'bacon', 'cheese', 'sugar'],
-                    'tender': ['chicken']}
-descriptor_thing['healthy_food'].extend(veggies)
+descriptor_thing = {
+    'healthy_method': ['boil', 'steam', 'grill'],
+    'unhealthy_methods': ['saute', 'fry', 'roast'],
+    'healthy_food': ['chicken'] + veggies,
+    'unhealthy_food': ['butter', 'bacon', 'cheese', 'sugar'],
+    'light_protein': ['chicken', 'tofu', 'tempeh', 'lentil', 'chickpea'],
+    'heavy_protein': ['beef', 'bacon', 'pork', 'steak', 'mushroom', 'seitan', 'sausage', 'salami',
+                      'turkey'],
+    'veggie': veggies,
+    'fruit': fruits
+}
 thing_descriptor = {}
 for desc, list in descriptor_thing.items():
     for item in list:
         thing_descriptor.setdefault(item, []).append(desc)
 print("DESCRIPTOR_THING:", descriptor_thing)
 print("THING_DESCRIPTOR", thing_descriptor)
-
-
 
 # print([item.lower() for item in fruits])
 
