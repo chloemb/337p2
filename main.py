@@ -19,12 +19,12 @@ for deletething in deletelist:
     parsed_ingredients.pop(deletething)
 
 parsed_steps = parse_steps(recipe['Procedure'], parsed_ingredients)
-sorted_ings = sorter(parsed_ingredients.keys())
+sorted_ings, sorted_ings_base = sorter(parsed_ingredients.keys())
 
 print("\nRETRIEVED:", recipe, '\n')
 print("PARSED INGREDIENTS", parsed_ingredients, '\n')
 print("PARSED STEPS", parsed_steps, '\n')
-print("SORTED INGREDIENTS", sorted_ings, '\n')
+print("SORTED INGREDIENTS", sorted_ings, sorted_ings_base, '\n')
 
 print("Transforming", recipe['Name'], "\nPlease enter the number of the transformation you'd like to apply:")
 print("1: Double Ingredients")
@@ -41,7 +41,7 @@ elif transform == "2":
 elif transform == "4":
     transformed_ing = vegetarian(parsed_ingredients, recipe, parsed_steps)
 elif transform == "5":
-    transformed_ing = cuisine_morph('italian', parsed_steps, parsed_ingredients, sorted_ings)
+    transformed_ing = cuisine_morph('italian', parsed_steps, parsed_ingredients, sorted_ings_base, sorted_ings)
 else:
     transformed_ing = "Not assigned"
 

@@ -1,6 +1,9 @@
 import requests
 from lxml import html
 import re
+import nltk
+from nltk.corpus import wordnet
+# nltk.download('wordnet')
 
 # all word banks used in the project
 
@@ -72,15 +75,15 @@ media = ['wine', 'oil', 'vinegar', 'butter', 'margarine', 'broth', 'juice']
 grains = ['amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'einkorn', 'farro', 'emmer', 'fonio', 'freekeh',
           'kamut', 'kañiwa', 'millet', 'oats', 'quinoa', 'rice', 'rye', 'sorghum', 'milo', 'spelt', 'teﬀ', 'triticale',
           'wheat', 'wild rice', 'flour', 'couscous']
-dairy = ['milk', 'butter', 'cheese', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise']
-carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta'] + pasta
+dairy = ['milk', 'butter', 'cheese', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato']
+carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta', 'ramen', 'udon', 'soba', 'noodle'] + pasta
 toppings = ['sauce', 'sprinkle', 'garnish']
 
-not_protein = ['bouillon', 'broth']
+not_protein = ['bouillon', 'broth', 'noodle']
 not_seasoning = ['butter']
 not_veg = ['sauce','paste', 'oil', 'vinegar', 'cider', 'broth', 'juice']
 not_fruit = ['sauce', 'oil', 'vinegar', 'cider', 'juice']
-not_carbs = ['sauce']
+not_carbs = ['sauce', 'seasoning']
 
 # used in step_parser
 toollist = ['dipper', 'brasero', 'fillet knife', 'skillet', 'cheesemelter', 'range', 'processor', 'oven', 'thermometer',
@@ -104,20 +107,45 @@ toollist = ['dipper', 'brasero', 'fillet knife', 'skillet', 'cheesemelter', 'ran
 # used in vegetarianify
 not_vegetarian = meat
 
-# used for cuisine changes
+# used for cuisine changes.
+# if you add something to 'italian' you must also add it to 'sorted_italian in the proper place
 cuisines = {
-    'italian':
-        {
-            'protein': ['beef', 'prosciutto', 'chicken', 'salami', 'sausage', 'eggplant'],
-            'veggies': ['tomato', 'zucchini', 'cucumber', 'mushroom', 'broccolini', 'rabe', 'arugula', 'squash'],
-            'fruits': [],
-            'seasonings': ['garlic', 'parsley', 'basil', 'rosemary', 'oregano', 'caper', 'lemon'],
-            'media': ['olive oil'],
-            'grains': [],
-            'dairy': ['cheese', 'cream'],
-            'carbs': pasta
-        }
+    'sorted_italian': {
+        'protein': ['beef', 'prosciutto', 'chicken', 'salami', 'sausage', 'eggplant', 'ground beef'],
+        'vegetable': ['tomato', 'zucchini', 'cucumber', 'mushroom', 'broccolini', 'rabe', 'arugula', 'squash'],
+        'seasoning': ['garlic', 'parsley', 'basil', 'rosemary', 'oregano', 'caper', 'lemon', 'sugar'],
+        'dairy': ['cream', 'gelato', 'cheese'],
+        'media': ['olive oil', 'balsamic vinegar', 'butter'],
+        'carb': pasta
+    }
 }
+
+for key in cuisines['sorted_italian'].keys():
+    cuisines.setdefault('italian', []).extend(cuisines['sorted_italian'][key])
+
+#
+# spicy_seas = []
+# pungent_seas = []
+# sweet_seas = []
+#
+# for item in seasonings:
+#     syns = wordnet.synsets(item)
+#     try:
+#         meaning = ' '.join([syns[i].definition() for i in range(len(syns))])
+#     except:
+#         continue
+#     print(item,":", meaning)
+#     if 'hot' in meaning:
+#         spicy_seas.append(item)
+#     if 'pungent' in meaning:
+#         pungent_seas.append(item)
+#     if 'sweet' in meaning:
+#         sweet_seas.append(item)
+#
+# print(spicy_seas)
+# print(pungent_seas)
+# print(sweet_seas)
+
 
 # basic food/method descriptions
 descriptor_thing = {
@@ -128,15 +156,27 @@ descriptor_thing = {
     'light_protein': ['chicken', 'tofu', 'tempeh', 'lentil', 'chickpea'],
     'heavy_protein': ['beef', 'bacon', 'pork', 'steak', 'mushroom', 'seitan', 'sausage', 'salami',
                       'turkey'],
-    'veggie': veggies,
-    'fruit': fruits
+    'leafy_veg': ['arugula', 'amaranth leaves', 'artichoke', 'cabbage', 'celery', 'chicory', 'collards', 'dandelion', 'fennel',
+                  'kale', 'leeks', 'lettuce', 'mustard', 'radicchio', 'sorrel', 'spinach', 'chard', 'rabe'],
+    'root_veg': ['arrowroot', 'beets', 'carrot', 'cassava', 'celeriac', 'chicory', 'daikon', 'dandelion', 'ginger',
+                 'horseradish', 'parsnip', 'radish', 'rutabaga', 'salsify', 'sorrel', 'dock', 'chard', 'turnip', 'yam'],
+    'spicy_seas': ['chiles', 'chili', 'carom', 'cayenne', 'togarashi', 'peppercorn'],
+    'pungent_seas': ['peppercorn', 'cayenne', 'ginger', 'marjoram', 'oregano', 'rosemary', 'saffron', 'caper', 'garlic',
+                     'lemon'],
+    'sweet_seas': ['honey', 'sugar'],
+    'oil_med': ['oil', 'butter', 'margarine', 'olive oil'],
+    'acidic_med': ['wine', 'vinegar', 'balsamic vinegar'],
+    'western_pasta': pasta,
+    'eastern_pasta': ['ramen', 'udon', 'soba', 'noodle']
 }
+
 thing_descriptor = {}
 for desc, list in descriptor_thing.items():
     for item in list:
         thing_descriptor.setdefault(item, []).append(desc)
-print("DESCRIPTOR_THING:", descriptor_thing)
-print("THING_DESCRIPTOR", thing_descriptor)
+# print("DESCRIPTOR_THING:", descriptor_thing)
+# print("THING_DESCRIPTOR", thing_descriptor)
+
 
 # print([item.lower() for item in fruits])
 
