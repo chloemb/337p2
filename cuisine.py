@@ -79,6 +79,21 @@ def cuisine_morph(cuisine, ingredients, steps, sorted_ing, sorted_ing_unbase):
                 new_carb.append((real_ing, real_ing))
         sorted_ing['Carbs'] = new_carb
 
+    dairy = sorted_ing.get('Dairy')
+    if dairy:
+        new_dairy = []
+        for dai in dairy:
+            descriptor = word_banks.thing_descriptor.get(dai)
+            real_ing = sorted_ing_unbase['Dairy'][dairy.index(dai)]
+            if descriptor:
+                if 'solid_dairy' in descriptor:
+                    new_dairy.append((real_ing, find_item(['solid_dairy'], cuisine)))
+                elif 'cream_dairy' in word_banks.thing_descriptor.get(dai):
+                    new_dairy.append((real_ing, find_item(['cream_dairy'], cuisine)))
+            else:
+                new_dairy.append((real_ing, real_ing))
+        sorted_ing['Dairy'] = new_dairy
+
     print("NEW SORTED ING", sorted_ing, "\n\n")
 
     # in sorted ing tuples, the first thing is the ingredient we're replacing,

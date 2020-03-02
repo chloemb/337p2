@@ -13,6 +13,7 @@ pasta = ['spaghetti', 'penne', 'fettucine', 'angel hair', 'linguine', 'orzo', 'l
 meat = ['chicken', 'beef', 'pork', 'steak', 'fish', 'salmon', 'bass',
         'egg', 'tuna', 'turkey', 'halibut', 'bacon', 'veal', 'duck', 'lamb', 'cod', 'trout',
         'sausage', 'salami']
+cheese = ['mozzarella', 'parmesan', 'gorgonzola', 'ricotta', 'ovalini', 'cheddar']
 
 # used in ing_parser.py
 measurement_bank = ['teaspoon', 'tablespoon', 'cup', 'lb', 'package', 'pinch', 'sprinkle', 'ounce', 'oz', 'stalk',
@@ -75,7 +76,7 @@ media = ['wine', 'oil', 'vinegar', 'butter', 'margarine', 'broth', 'juice']
 grains = ['amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'einkorn', 'farro', 'emmer', 'fonio', 'freekeh',
           'kamut', 'kañiwa', 'millet', 'oats', 'quinoa', 'rice', 'rye', 'sorghum', 'milo', 'spelt', 'teﬀ', 'triticale',
           'wheat', 'wild rice', 'flour', 'couscous']
-dairy = ['milk', 'butter', 'cheese', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato']
+dairy = ['milk', 'butter', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato'] + cheese
 carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta', 'ramen', 'udon', 'soba', 'noodle'] + pasta
 toppings = ['sauce', 'sprinkle', 'garnish']
 
@@ -114,7 +115,7 @@ cuisines = {
         'protein': ['beef', 'prosciutto', 'chicken', 'salami', 'sausage', 'eggplant', 'ground beef'],
         'vegetable': ['tomato', 'zucchini', 'cucumber', 'mushroom', 'broccolini', 'rabe', 'arugula', 'squash'],
         'seasoning': ['garlic', 'parsley', 'basil', 'rosemary', 'oregano', 'caper', 'lemon', 'sugar'],
-        'dairy': ['cream', 'gelato', 'cheese'],
+        'dairy': cheese + ['cream', 'gelato'],
         'media': ['olive oil', 'balsamic vinegar', 'butter'],
         'carb': pasta
     }
@@ -167,7 +168,9 @@ descriptor_thing = {
     'oil_med': ['oil', 'butter', 'margarine', 'olive oil'],
     'acidic_med': ['wine', 'vinegar', 'balsamic vinegar'],
     'western_pasta': pasta,
-    'eastern_pasta': ['ramen', 'udon', 'soba', 'noodle']
+    'eastern_pasta': ['ramen', 'udon', 'soba', 'noodle'],
+    'solid_dairy': cheese,
+    'cream_dairy': ['milk', 'butter', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato']
 }
 
 thing_descriptor = {}

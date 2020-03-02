@@ -42,6 +42,10 @@ def sorter(ingredients):
             sorted_dict.setdefault('Toppings', []).append(ing)
             sorted_dict_base.setdefault('Toppings', []).append(find_which_ing(ing, word_banks.toppings))
 
+        if any(dai in ing_lower for dai in word_banks.dairy):
+            sorted_dict.setdefault('Dairy', []).append(ing)
+            sorted_dict_base.setdefault('Dairy', []).append(find_which_ing(ing, word_banks.dairy))
+
     return sorted_dict, sorted_dict_base
 
 
