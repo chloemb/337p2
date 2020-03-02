@@ -4,7 +4,7 @@ from step_parser import parse_steps
 from double_halve import double_halve
 from ing_sorter import sorter
 from vegetarianify import vegetarian
-from cuisine import cuisine_morph
+#from cuisine import cuisine_morph
 
 recipe = retrieve_dict()
 #Returns a dict. "Name", "Ingredients" and "Procedure" return appropriate information in a list (except name. Name is not in a list)
@@ -40,8 +40,8 @@ elif transform == "2":
     transformed_ing = double_halve(parsed_ingredients, False)
 elif transform == "4":
     transformed_ing = vegetarian(parsed_ingredients, recipe, parsed_steps)
-elif transform == "5":
-    transformed_ing = cuisine_morph('italian', parsed_steps, parsed_ingredients, sorted_ings)
+#elif transform == "5":
+#    transformed_ing = cuisine_morph('italian', parsed_steps, parsed_ingredients, sorted_ings)
 else:
     transformed_ing = "Not assigned"
 

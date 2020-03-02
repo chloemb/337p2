@@ -58,46 +58,181 @@ def parse_steps(steps, ingredients):
                         start_verb = True
                         most_recent_verb = pairs[0]
                         stored_info = {"Ingredients": [], "Tools": [], "Times": [], "Related_Verbs": []}
-                        ingredient_list = []
+                        ingredient_list = {}
                         word_to_be_delete = ''
                         verb_list = []
                         for ingredient in ingredients:
+                            quantity = ''
                             if ingredient not in ingredient_list:
                                 if re.search(" " + ingredient + " ", sentence_mod):
-                                    ingredient_list.append(ingredient)
+                                    print("ingredient:")
+                                    for blocks in sentence_mod.split()[:sentence_mod.split().index(ingredient.split()[0])]:
+                                        if blocks in measurement_bank:
+                                            try:
+                                                try:
+                                                    frac = unicodedata.numeric(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                    frac = fractions.Fraction(frac)
+
+                                                except:
+                                                    frac = fractions.Fraction(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+
+                                            except:
+                                                frac = False
+                                            if frac:
+                                                quantity = str(frac) + " " + blocks
+                                    print(ingredient_list)
+                                    ingredient_list.update({ingredient: quantity})
+                                    print(ingredient_list)
                                     word_to_be_delete = ingredient
-                                    for word in sentence_mod:
-                                        print(word)
-                                        if word in measurement_bank:
-                                            qunatity.append(word)
+                                if re.search(" " + ingredient + ",", sentence_mod):
+                                    print("ingredient:")
+                                    help_me = sentence_mod.replace(",", ' ')
+                                    for blocks in help_me.split()[:help_me.split().index(ingredient.split()[0])]:
+                                        if blocks in measurement_bank:
+                                            try:
+                                                try:
+                                                    frac = unicodedata.numeric(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                    frac = fractions.Fraction(frac)
+
+                                                except:
+                                                    frac = fractions.Fraction(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+
+                                            except:
+                                                frac = False
+                                            if frac:
+                                                quantity = str(frac) + " " + blocks
+                                    ingredient_list.update({ingredient: quantity})
+                                    word_to_be_delete = ingredient
+                                    if re.search(" " + ingredient + ";", sentence_mod):
+                                        help_me = sentence_mod.replace(",", ' ')
+                                        for blocks in help_me.split()[:help_me.split().index(ingredient.split()[0])]:
+                                            if blocks in measurement_bank:
+                                                try:
+                                                    try:
+                                                        frac = unicodedata.numeric(sentence_mod.split()[
+                                                                                       sentence_mod.split().index(
+                                                                                           blocks) - 1])
+                                                        frac = fractions.Fraction(frac)
+
+                                                    except:
+                                                        frac = fractions.Fraction(sentence_mod.split()[
+                                                                                      sentence_mod.split().index(
+                                                                                          blocks) - 1])
+                                                except:
+                                                    frac = False
+                                                if frac:
+                                                    quantity = str(frac) + " " + blocks
+                                        ingredient_list.update({ingredient: quantity})
+                                        word_to_be_delete = ingredient
                             if ingredient not in ingredient_list:
                                 if len(ingredient.split()) > 1:
-                                    j = len(ingredient.split())
-                                    while j > 0:
-                                        print(j)
-                                        i = 0
-                                        while i < j:
-                                            holder = ingredient.split()[i:j]
-                                            print(holder)
+                                    i = len(ingredient.split())
+                                    while i > 0:
+                                        j = 0
+                                        while j < i:
+                                            holder = ingredient.split()[j:i]
                                             holder_ingredient = ''
                                             for k in holder:
                                                 holder_ingredient = holder_ingredient + k + ' '
-                                            print(holder_ingredient)
                                             if re.search(" " + holder_ingredient, sentence_mod):
-                                                ingredient_list.append(ingredient)
+                                                for blocks in sentence_mod.split()[
+                                                              :sentence_mod.split().index(holder_ingredient.split()[0])]:
+                                                    if blocks in measurement_bank:
+                                                        try:
+                                                            try:
+                                                                frac = unicodedata.numeric(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                                frac = fractions.Fraction(frac)
+                                                            except:
+                                                                frac = fractions.Fraction(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                        except:
+                                                            frac = False
+                                                        if frac:
+                                                            quantity = str(frac) + " " + blocks
+                                                ingredient_list.update({ingredient: quantity})
                                                 word_to_be_delete = holder_ingredient
-                                                print(word_to_be_delete)
-                                                print("break1")
                                                 break
-                                            i = i + 1
+                                            j = j + 1
+                                        i = i -1
+                            if ingredient not in ingredient_list:
+                                if len(ingredient.split()) > 1:
+                                    i = len(ingredient.split())
+                                    while i > 0:
+                                        j = 0
+                                        while j < i:
+                                            holder = ingredient.split()[j:i]
+                                            holder_ingredient = ''
+                                            for k in holder:
+                                                holder_ingredient = holder_ingredient + k + ' '
+                                            holder_ingredient = holder_ingredient[:-1] + ','
+                                            if re.search(" " + holder_ingredient, sentence_mod):
+                                                for blocks in sentence_mod.split()[
+                                                              :sentence_mod.split().index(
+                                                                  holder_ingredient.split()[0])]:
+                                                    if blocks in measurement_bank:
+                                                        try:
+                                                            try:
+                                                                frac = unicodedata.numeric(
+                                                                    sentence_mod.split()[
+                                                                        sentence_mod.split().index(
+                                                                            blocks) - 1])
+                                                                frac = fractions.Fraction(frac)
+                                                            except:
+                                                                frac = fractions.Fraction(
+                                                                    sentence_mod.split()[
+                                                                        sentence_mod.split().index(
+                                                                            blocks) - 1])
+                                                        except:
+                                                            frac = False
+                                                        if frac:
+                                                            quantity = str(frac) + " " + blocks
+                                                ingredient_list.update({ingredient: quantity})
+                                                word_to_be_delete = holder_ingredient
+                                                break
+                                            j = j + 1
                                         if ingredient in ingredient_list:
-                                            print("break2")
                                             break
-                                        j = j - 1
+                                        i = i - 1
+                            if ingredient not in ingredient_list:
+                                if len(ingredient.split()) > 1:
+                                    i = len(ingredient.split())
+                                    while i > 0:
+                                        j = 0
+                                        while j < i:
+                                            holder = ingredient.split()[j:i]
+                                            holder_ingredient = ''
+                                            for k in holder:
+                                                holder_ingredient = holder_ingredient + k + ' '
+                                            holder_ingredient = holder_ingredient[:-1] + ';'
+                                            if re.search(" " + holder_ingredient, sentence_mod):
+                                                for blocks in sentence_mod.split()[
+                                                              :sentence_mod.split().index(
+                                                                  holder_ingredient.split()[0])]:
+                                                    if blocks in measurement_bank:
+                                                        try:
+                                                            try:
+                                                                frac = unicodedata.numeric(
+                                                                    sentence_mod.split()[
+                                                                        sentence_mod.split().index(
+                                                                            blocks) - 1])
+                                                                frac = fractions.Fraction(frac)
+                                                            except:
+                                                                frac = fractions.Fraction(
+                                                                    sentence_mod.split()[
+                                                                        sentence_mod.split().index(
+                                                                            blocks) - 1])
+                                                        except:
+                                                            frac = False
+                                                        if frac:
+                                                            quantity = str(frac) + " " + blocks
+                                                ingredient_list.update({ingredient: quantity})
+                                                word_to_be_delete = holder_ingredient
+                                                break
+                                            j = j + 1
+                                        if ingredient in ingredient_list:
+                                            break
+                                        i = i - 1
                             if ingredient in ingredient_list:
-                                print("delete")
                                 sentence_mod = sentence_mod.replace(word_to_be_delete, '', 1)
-                                print(sentence_mod)
                         stored_info.update({"Ingredients": ingredient_list})
                     if pairs[1] == 'RB':
                         most_recent_adverb = pairs[0] + " "

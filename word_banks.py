@@ -13,7 +13,7 @@ meat = ['chicken', 'beef', 'pork', 'steak', 'fish', 'salmon', 'bass',
 
 # used in ing_parser.py
 measurement_bank = ['teaspoon', 'tablespoon', 'cup', 'lb', 'package', 'pinch', 'sprinkle', 'ounce', 'oz', 'stalk',
-                    'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound', 'can', 'clove', 'head', 'slice']
+                    'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound', 'can', 'clove', 'head', 'slice', 'medium']
 prep_words = ['chop', 'peel', 'core', 'slice', 'mince', 'crush', 'rinse', 'grate', 'wash', 'beaten']
 
 

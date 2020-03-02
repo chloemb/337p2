@@ -95,7 +95,11 @@ def parse_ingredients(ingredients):
         # handle a max of two same ingredients.
         ing_to_add = re.sub(r'[^\w\s]', '', ' '.join(parse_this))
         if ingredients_parsed.get(ing_to_add):
-            ing_to_add += "*"
-        ingredients_parsed[ing_to_add] = item_dict
+            ingredients_parsed[ing_to_add]["Quantity"] = item_dict["Quantity"] + ingredients_parsed[ing_to_add]["Quantity"]
+            item_dict.setdefault('Measurement', [])
+            ingredients_parsed[ing_to_add].setdefault('Measurement', []).append(item_dict["Measurement"])
+            ingredients_parsed[ing_to_add]["Measurement"].append(item_dict["Measurement"])
+        else:
+            ingredients_parsed[ing_to_add] = item_dict
     return ingredients_parsed
 
