@@ -91,6 +91,11 @@ def parse_ingredients(ingredients):
             if word in parse_this:
                 parse_this.remove(word)
 
+        # remove remaining measure words
+        for word in parse_this:
+            if word in measurement_bank:
+                parse_this.remove(word)
+
         # add item to parsed ingredients. if item is already in parsed ingredients, add * to it before adding. can only
         # handle a max of two same ingredients.
         ing_to_add = re.sub(r'[^\w\s]', '', ' '.join(parse_this))
