@@ -6,7 +6,7 @@ import re
 
 # used in ing_parser.py
 measurement_bank = ['teaspoon', 'tablespoon', 'cup', 'lb', 'package', 'pinch', 'sprinkle', 'ounce', 'oz', 'stalk',
-                    'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound', 'can', 'clove', 'head']
+                    'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound', 'can', 'clove', 'head','pound']
 prep_words = ['chop', 'peel', 'core', 'slice', 'mince', 'crush', 'rinse', 'grate', 'wash', 'beaten']
 
 
@@ -76,6 +76,7 @@ not_protein = ['bouillon', 'broth']
 not_seasoning = ['butter']
 not_veg = ['sauce', 'paste', 'oil', 'vinegar', 'cider', 'broth', 'juice']
 not_fruit = ['oil', 'vinegar', 'cider', 'juice']
+
 
 
 # print([item.lower() for item in fruits])
