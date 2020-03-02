@@ -4,15 +4,22 @@ import re
 
 # all word banks used in the project
 
+pasta = ['spaghetti', 'penne', 'fettucine', 'angel hair', 'linguine', 'orzo', 'lasagn', 'macaroni', 'rigatoni',
+         'ravioli', 'cannelloni', 'tagliatette', 'tortellini', 'pappardelle', 'fusilli', 'bucatini', 'orecchiette',
+         'farfalle', 'fregula', 'taglierini', 'manicotti', 'cavatappi', 'cavatelli', 'capellin', 'ziti', 'rotini']
+meat = ['chicken', 'beef', 'pork', 'steak', 'fish', 'salmon', 'bass',
+        'egg', 'tuna', 'turkey', 'halibut', 'bacon', 'veal', 'duck', 'lamb', 'cod', 'trout',
+        'sausage', 'salami']
+
 # used in ing_parser.py
 measurement_bank = ['teaspoon', 'tablespoon', 'cup', 'lb', 'package', 'pinch', 'sprinkle', 'ounce', 'oz', 'stalk',
-                    'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound', 'can', 'clove', 'head']
+                    'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound', 'can', 'clove', 'head', 'slice']
 prep_words = ['chop', 'peel', 'core', 'slice', 'mince', 'crush', 'rinse', 'grate', 'wash', 'beaten']
 
 
 # used in ing_sorter.py
-proteins = ['chicken', 'beef', 'pork', 'steak', 'tofu', 'tempeh', 'fish', 'salmon', 'bass', 'lentil', 'chickpea',
-            'egg', 'tuna', 'legume', 'turkey', 'halibut', 'bacon', 'veal', 'duck', 'lamb','cod','trout']
+proteins = ['tofu', 'tempeh','lentil', 'chickpea', 'legume','seitan', 'mushroom']
+proteins.extend(meat)
 # veggies found here: https://www.halfyourplate.ca/fruits-and-veggies/veggies-a-z/
 veggies = ['amaranth leaves', 'arrowroot', 'artichoke', 'arugula', 'asparagus', 'bamboo shoots', 'beans', 'beets',
            'belgian endive', 'bitter melon', 'bok choy', 'broadbeans', 'broccoli', 'broccoli rabe', 'brussel sprout',
@@ -59,23 +66,73 @@ seasonings = ['adobo', 'chile powder', 'chiles', 'paprika', 'allspice', 'flavori
               'soy sauce powder', 'sumac', 'vanilla beans', 'tamarind powder', 'tandoori spice',
               'tarragon', 'thyme', 'tomato powder', 'turmeric', 'vadouvan spice',
               'vindaloo curry powder', 'vinegar powder', 'malt', 'wasabi',
-              'worcestershire sauce powder', 'zaatar spice', 'sugar', 'mint']
+              'worcestershire sauce powder', 'zaatar spice', 'sugar', 'mint', 'caper']
 media = ['wine', 'oil', 'vinegar', 'butter', 'margarine', 'broth', 'juice']
 # grains found here: https://wholegrainscouncil.org/whole-grains-101/whole-grains-z
 grains = ['amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'einkorn', 'farro', 'emmer', 'fonio', 'freekeh',
           'kamut', 'kañiwa', 'millet', 'oats', 'quinoa', 'rice', 'rye', 'sorghum', 'milo', 'spelt', 'teﬀ', 'triticale',
           'wheat', 'wild rice', 'flour', 'couscous']
 dairy = ['milk', 'butter', 'cheese', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise']
-carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta', 'spaghetti', 'penne', 'fettucine', 'angel hair', 'linguine']
-
-toollist = ['dipper', 'brasero', 'fillet knife', 'skillet', 'cheesemelter', 'range', 'processor', 'oven', 'thermometer', 'opener', ' boiler', 'tamis', 'reamer', 'kyoto box', 'lame', 'tongs', 'pestle and mortar', 'stove', 'multicooker', 'potato ricer', 'scoop', 'susceptor', 'regulator', 'piercer', 'fryer', 'poacher', 'coffeemaker', 'frother', 'corer', 'shaker', 'iron', 'microplane', 'kettle', '  dispenser', 'spoon', 'twine', 'scaler', 'roasting jack', 'brazier', 'steamer', 'rotimatic', 'shichirin', 'shears', 'machine', 'corkscrew', 'Cheesecloth', 'baster', 'circulator', 'haybox', 'needle', 'mandoline', 'tray', 'peeler', 'comal', 'rotisserie', 'curler', 'nutcracker', 'board', 'crepe maker', 'mezzaluna', 'pot-holder', 'baller', 'chocolatera', 'knife', 'cutter', 'tandoor', 'mortar and pestle', 'separator', 'maker', 'brush', 'lobster pick', 'timer', 'tenderiser', 'docker', 'sieve', 'scales', 'mess kit', 'torch', 'remoska', 'press', 'ladle', 'spatula', 'bowl', 'blender', 'burjiko', 'squeezer', 'scissors', 'sifter', 'measuring cup', 'Pie bird', 'glove', 'boilers', 'percolator', 'cleaver', 'saucepan','saucer', 'crab cracker', 'grinder', 'bag', 'roaster', 'colander', 'slotted spoon', 'samovar', 'grill', 'mill', 'horno', 'masher', 'tangia', 'roller', 'beanpot', 'whisk', 'kitchen', 'microwave', 'pitter', 'edible tableware', 'hot box', 'strainer', 'Rice polisher', 'cooker', 'scraper', 'pot', 'broiler', 'plate', 'Zester', 'kamado', 'grater', 'chopper', 'sabbath mode', 'rolling pin', 'makiyakinabe', 'blow torch', 'chinois', 'funnel', 'mated colander pot', 'heater', 'slicer', 'bottle opener', 'server', 'kujiejun', 'toaster']
-not_vegetarian = ['chicken', 'beef', 'pork','steak','fish', 'salmon', 'bass',
-'tuna','turkey', 'halibut', 'bacon', 'veal', 'duck', 'lamb','cod','trout']
+carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta']
+carbs.extend(pasta)
+toppings = ['sauce', 'sprinkle', 'garnish']
 
 not_protein = ['bouillon', 'broth']
 not_seasoning = ['butter']
-not_veg = ['sauce', 'paste', 'oil', 'vinegar', 'cider', 'broth', 'juice']
-not_fruit = ['oil', 'vinegar', 'cider', 'juice']
+not_veg = ['sauce','paste', 'oil', 'vinegar', 'cider', 'broth', 'juice']
+not_fruit = ['sauce', 'oil', 'vinegar', 'cider', 'juice']
+not_carbs = ['sauce']
+
+# used in step_parser
+toollist = ['dipper', 'brasero', 'fillet knife', 'skillet', 'cheesemelter', 'range', 'processor', 'oven', 'thermometer',
+            'opener', ' boiler', 'tamis', 'reamer', 'kyoto box', 'lame', 'tongs', 'pestle and mortar', 'stove',
+            'multicooker', 'potato ricer', 'scoop', 'susceptor', 'regulator', 'piercer', 'fryer', 'poacher',
+            'coffeemaker', 'frother', 'corer', 'shaker', 'iron', 'microplane', 'kettle', '  dispenser', 'spoon',
+            'twine', 'scaler', 'roasting jack', 'brazier', 'steamer', 'rotimatic', 'shichirin', 'shears', 'machine',
+            'corkscrew', 'Cheesecloth', 'baster', 'circulator', 'haybox', 'needle', 'mandoline', 'tray', 'peeler',
+            'comal', 'rotisserie', 'curler', 'nutcracker', 'board', 'crepe maker', 'mezzaluna', 'pot-holder', 'baller',
+            'chocolatera', 'knife', 'cutter', 'tandoor', 'mortar and pestle', 'separator', 'maker', 'brush',
+            'lobster pick', 'timer', 'tenderiser', 'docker', 'sieve', 'scales', 'mess kit', 'torch', 'remoska',
+            'press', 'ladle', 'spatula', 'bowl', 'blender', 'burjiko', 'squeezer', 'scissors', 'sifter',
+            'measuring cup', 'Pie bird', 'glove', 'boilers', 'percolator', 'cleaver', 'saucepan','saucer',
+            'crab cracker', 'grinder', 'bag', 'roaster', 'colander', 'slotted spoon', 'samovar', 'grill', 'mill',
+            'horno', 'masher', 'tangia', 'roller', 'beanpot', 'whisk', 'kitchen', 'microwave', 'pitter',
+            'edible tableware', 'hot box', 'strainer', 'Rice polisher', 'cooker', 'scraper', 'pot', 'broiler',
+            'plate', 'Zester', 'kamado', 'grater', 'chopper', 'sabbath mode', 'rolling pin', 'makiyakinabe',
+            'blow torch', 'chinois', 'funnel', 'mated colander pot', 'heater', 'slicer', 'bottle opener',
+            'server', 'kujiejun', 'toaster']
+
+# used in vegetarianify
+not_vegetarian = meat
+
+# used for cuisine changes
+cuisines = {
+    'italian':
+        {
+            'protein': ['beef', 'prosciutto', 'chicken', 'salami', 'sausage'],
+            'veggies': ['tomato', 'zucchini', 'cucumber', 'mushroom', 'broccolini', 'rabe', 'arugula', 'squash'],
+            'fruits': [],
+            'seasonings': ['garlic', 'parsley', 'basil', 'rosemary', 'oregano', 'caper', 'lemon'],
+            'media': ['olive oil'],
+            'grains': [],
+            'dairy': ['cheese', 'cream'],
+            'carbs': pasta
+        }
+}
+
+# basic food/method descriptions
+descriptor_thing = {'healthy_method': ['boil', 'steam'],
+                    'healthy_food': ['chicken'],
+                    'unhealthy_methods': ['saute', 'fry', 'roast'],
+                    'unhealthy_food': ['butter', 'bacon', 'cheese', 'sugar'],
+                    'tender': ['chicken']}
+descriptor_thing['healthy_food'].extend(veggies)
+thing_descriptor = {}
+for desc, list in descriptor_thing.items():
+    for item in list:
+        thing_descriptor.setdefault(item, []).append(desc)
+print("DESCRIPTOR_THING:", descriptor_thing)
+print("THING_DESCRIPTOR", thing_descriptor)
 
 
 # print([item.lower() for item in fruits])

@@ -75,7 +75,8 @@ def parse_ingredients(ingredients):
 
         # remove measurement and quantity words from the string, leaving only the item
         for word in not_words:
-            parse_this.remove(word)
+            if word in parse_this:
+                parse_this.remove(word)
 
         # add item to parsed ingredients. if item is already in parsed ingredients, add * to it before adding. can only
         # handle a max of two same ingredients.

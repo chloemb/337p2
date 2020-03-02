@@ -4,6 +4,7 @@ from step_parser import parse_steps
 from double_halve import double_halve
 from ing_sorter import sorter
 from vegetarianify import vegetarian
+from cuisine import cuisine_morph
 
 recipe = retrieve_dict()
 #Returns a dict. "Name", "Ingredients" and "Procedure" return appropriate information in a list (except name. Name is not in a list)
@@ -22,14 +23,15 @@ sorted_ings = sorter(parsed_ingredients.keys())
 
 print("\nRETRIEVED:", recipe, '\n')
 print("PARSED INGREDIENTS", parsed_ingredients, '\n')
-# print("PARSED STEPS", parsed_steps, '\n')
+print("PARSED STEPS", parsed_steps, '\n')
 print("SORTED INGREDIENTS", sorted_ings, '\n')
 
 print("Transforming", recipe['Name'], "\nPlease enter the number of the transformation you'd like to apply:")
 print("1: Double Ingredients")
 print("2: Halve Ingredients")
 print("3: Change cuisine to ___")
-print("4: Make vegetarian\n")
+print("4: Make vegetarian")
+print("5: Make Italian\n")
 transform = input()
 
 if transform == "1":
@@ -37,7 +39,9 @@ if transform == "1":
 elif transform == "2":
     transformed_ing = double_halve(parsed_ingredients, False)
 elif transform == "4":
-    transformed_ing = vegetarian(parsed_ingredients,recipe,parsed_steps)
+    transformed_ing = vegetarian(parsed_ingredients, recipe, parsed_steps)
+elif transform == "5":
+    transformed_ing = cuisine_morph('italian', parsed_steps, parsed_ingredients, sorted_ings)
 else:
     transformed_ing = "Not assigned"
 
