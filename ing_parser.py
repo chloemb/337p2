@@ -1,6 +1,7 @@
 import fractions
 import re
 import unicodedata
+import sys
 import string
 from word_banks import measurement_bank
 from word_banks import prep_words
@@ -12,7 +13,19 @@ def parse_ingredients(ingredients):
         item_dict = {}
 
         # remove things within parentheses (revisit this later)
-        ing = re.sub(r'\([^)]*\)', '', ing)
+        if '('  in ing or ')' in ing:
+            try:
+                pre, paren = ing.split('(')
+                paren, post = paren.split(')')
+                if any(measure in paren for measure in measurement_bank):
+                    if len(post) >= len(pre):
+                        ing = paren + post
+                    else:
+                        ing = pre + paren
+                else:
+                    ing = re.sub(r'\([^)]*\)', '', ing) #original solution  
+            except:
+                ing = re.sub(r'\([^)]*\)', '', ing) #original solution
 
         # # remove punctuation except for . and / and , (revisit this as well)
         # ing = re.sub(r'[^\w\s/.,]', '', ing)
@@ -86,4 +99,3 @@ def parse_ingredients(ingredients):
         ingredients_parsed[ing_to_add] = item_dict
     return ingredients_parsed
 
-    

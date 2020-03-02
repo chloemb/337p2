@@ -1,7 +1,7 @@
 import fractions
 import re
 import nltk
-from word_banks import toollist
+import word_banks
 
 # problems: words that are shortened in steps (oil for olive oil),
 # mischaracterizing specific words (verbs as nouns, nouns as other things),
@@ -37,7 +37,7 @@ def parse_steps(steps, ingredients):
                     if pairs[0] in list_of_time_words:
                         part_of_time = True
                         timing = timing + " " + pairs[0]
-                    if pairs[0] in toollist:
+                    if pairs[0] in word_banks.toollist:
                         #insert something here to get tools as well
                         stored_info.update({"Tools": pairs[0]})
                     if pairs[1] == ':' or pairs[1] == '.':
