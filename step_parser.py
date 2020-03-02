@@ -59,12 +59,13 @@ def parse_steps(steps, ingredients):
                         most_recent_verb = pairs[0]
                         stored_info = {"Ingredients": [], "Tools": [], "Times": [], "Related_Verbs": []}
                         ingredient_list = []
+                        word_to_be_delete = ''
                         verb_list = []
                         for ingredient in ingredients:
                             if ingredient not in ingredient_list:
                                 if re.search(" " + ingredient + " ", sentence_mod):
                                     ingredient_list.append(ingredient)
-                                    quantity = []
+                                    word_to_be_delete = ingredient
                                     for word in sentence_mod:
                                         print(word)
                                         if word in measurement_bank:
@@ -84,6 +85,8 @@ def parse_steps(steps, ingredients):
                                             print(holder_ingredient)
                                             if re.search(" " + holder_ingredient, sentence_mod):
                                                 ingredient_list.append(ingredient)
+                                                word_to_be_delete = holder_ingredient
+                                                print(word_to_be_delete)
                                                 print("break1")
                                                 break
                                             i = i + 1
@@ -91,6 +94,10 @@ def parse_steps(steps, ingredients):
                                             print("break2")
                                             break
                                         j = j - 1
+                            if ingredient in ingredient_list:
+                                print("delete")
+                                sentence_mod = sentence_mod.replace(word_to_be_delete, '', 1)
+                                print(sentence_mod)
                         stored_info.update({"Ingredients": ingredient_list})
                     if pairs[1] == 'RB':
                         most_recent_adverb = pairs[0] + " "
