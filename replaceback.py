@@ -1,7 +1,7 @@
 
 
 def replace_back_steps(alldict,stepnew):
-    print(alldict)
+    #print(alldict)
     #print(alldict,"\n")
     #print(alldict,"\n",stepnew)
     entire_string = []
@@ -87,7 +87,7 @@ def determine_measure(dict):
     except:
         pass
     for m in measure:
-        print(m,m[:-1],m[-1])
+        #print(m,m[:-1],m[-1])
         if m[-1]=="s":
             m=m[:-1]
     if measure ==[]:
