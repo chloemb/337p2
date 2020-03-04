@@ -4,10 +4,11 @@ def replace_back_steps(alldict,stepnew):
     # print(alldict)
     #print(alldict,"\n")
     #print(alldict,"\n",stepnew)
-    print(alldict)
 
     entire_string = []
+
     for sentence, rest in alldict.items():
+        
         finalver = sentence
         sentence=sentence.lower()
         adaptlist = []
@@ -19,26 +20,37 @@ def replace_back_steps(alldict,stepnew):
                 adaptlist.append(verb)
             except:
                 pass
+        recognizelist = []
         for verb in adaptlist:
+
             if verb in sentence:
                 backup = sentence
-                recognizelist = []
                 for replacefrom, replaceinto in stepnew[verb]['replacement']:
+                    if replacefrom==replaceinto:
+                        continue
                     #print(stepnew[verb]['replacement'])
                     #print(replacefrom, replaceinto, finalver)
                     recognizelist += recognize_ingredient(replacefrom, sentence,replaceinto)
-                recognizelist.sort(reverse=True,key=helper2)
-                for thing,replace in recognizelist:
-                    #print(thing,replace,finalver)
-                    print(thing,replace)
-                    finalver=finalver.replace(thing,replace)
-                #print(finalver)
-                if backup != sentence:
-                    stepnew.pop(verb)
+                print(finalver)
+        recognizelist.sort(reverse=True,key=helper2)
+        finalver = applylist(recognizelist, finalver)
+        for thing,replace in recognizelist:
+            #print(thing,replace,finalver)
+            #print(thing,replace)
+            finalver=finalver.replace(thing,replace)
         print(finalver)
         entire_string.append(finalver)
     #print(entire_string)
     return entire_string                
+
+def applylist(rlist,sentence):
+    applied = []
+    for thing,replace in rlist:
+        if not any(thing in app for app in applied):
+            sentence = sentence.replace(thing,replace)
+            applied.append(replace)
+    return sentence
+
 
 #recognizies ingredient in the context of a sentence
 def recognize_ingredient(ingredient, sentence,replacement):

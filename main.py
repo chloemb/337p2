@@ -55,7 +55,8 @@ elif transform == "4":
     pass
 elif transform == "5":
     new_steps, new_ing = cuisine_morph('italian', parsed_steps, sorted_ings_base, sorted_ings, parsed_ingredients)
-    print("new steps", new_steps)
+    print(new_steps,"\n")
+    #print("new steps", new_steps)
     render_recipe(new_ing, new_steps, parsed_steps)
 elif transform == "6":
     transformed_ing = health(parsed_ingredients,recipe,parsed_steps)

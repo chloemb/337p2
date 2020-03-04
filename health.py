@@ -14,19 +14,16 @@ def health(ingredients,recipe,steps):
     #python why like actually python why I miss C so so much python WHY
     #ngl Im sure theres a less ugly but still ugly way to python this but
     #literally shouldnt have to
-    done = False
-    while not done:
-        done = True
-        for yummy,replace in foods.items():
-            for ingredient,details in ingredients.items():
-                #print(done)
-                if decide_replace(ingredient,yummy):
-                    print("here", done, ingredient,yummy)
-                    done = False
-                    #print(yummy, ingredient)
-                    adapt_thing(ingredients,newsteps,ingredient,replace)
-                    break
-                
+    adaptlist = []
+
+    for yummy,replace in foods.items():
+        for ingredient,details in ingredients.items():
+            if decide_replace(ingredient,yummy):
+                adaptlist.append((ingredient, replace))
+                #print(yummy, ingredient)
+    for ingredient, replace in adaptlist:
+        adapt_thing(ingredients,newsteps,ingredient,replace)
+
     for yummy,replace in methods.items():
         for verb, rest in newsteps.items():
             if verb in yummy or yummy in verb:
@@ -38,7 +35,7 @@ def health(ingredients,recipe,steps):
 
         
 def decide_replace(problem, listentry):
-    if problem in listentry or listentry in problem:
+    if (problem in listentry or listentry in problem) and problem != listentry:
         if not any(ignore in problem for ignore in ignore_list):
             return True
     return False
@@ -56,9 +53,9 @@ def decide_replace_thing(problem,steps):
 
 
 def adapt_thing(ingredients, newsteps,problem,replace):
-    #if its already there, all we have to do is add seitan and switch mentions of problem ingredient to its replacement.
-    if(problem==replace):
+    if problem == replace:
         return
+    #if its already there, all we have to do is add seitan and switch mentions of problem ingredient to its replacement.
     try:
         ingredients[replace]['quantity'] += ingredients[problem]['quantity']
         for stepverb, stepstuff in newsteps.items():
@@ -85,8 +82,7 @@ def adapt_thing(ingredients, newsteps,problem,replace):
         
 
 def adapt_method(problem, replace,newsteps,ingredients):
-    if problem==replace:
-        return
+
     newsteps[replace] = newsteps[problem]
     newsteps.pop(problem)
     for tool in newsteps[replace]["Tools"]:
