@@ -29,7 +29,8 @@ def sorter(ingredients):
             sorted_dict.setdefault('Seasonings', []).append(ing)
             sorted_dict_base.setdefault('Seasonings', []).append(find_which_ing(ing, word_banks.seasonings))
 
-        if any(med in ing_lower for med in word_banks.media):
+        if any(med in ing_lower for med in word_banks.media) \
+                and not any(nmed in ing_lower for nmed in word_banks.not_med):
             sorted_dict.setdefault('Cooking Medium', []).append(ing)
             sorted_dict_base.setdefault('Cooking Medium', []).append(find_which_ing(ing, word_banks.media))
 

@@ -89,7 +89,7 @@ def replace_back_ingredients(parseingredients, newdict):
         except:
             pass
         try:
-            if(len(details['Measurement']) > 1 and any(measure != details['Measurement'] for measure in details(Measurement))):
+            if(len(details['Measurement']) > 1 and any(measure != details['Measurement'] for measure in details('Measurement'))):
                 
                 entry+= details['Measurement'].capitalize() + " "
                 capitalized = True

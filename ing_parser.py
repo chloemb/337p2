@@ -23,12 +23,12 @@ def parse_ingredients(ingredients):
                     else:
                         ing = pre + paren
                 else:
-                    ing = re.sub(r'\([^)]*\)', '', ing) #original solution  
+                    ing = re.sub(r'\([^)]*\)', '', ing) #original solution
             except:
                 ing = re.sub(r'\([^)]*\)', '', ing) #original solution
 
         # # remove punctuation except for . and / and , (revisit this as well)
-        # ing = re.sub(r'[^\w\s/.,]', '', ing)
+        ing = re.sub(r'[^\w\s/.,]', ' ', ing)
 
         parse_this = ing.split()
         not_words = []

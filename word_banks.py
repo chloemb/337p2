@@ -18,7 +18,7 @@ cheese = ['mozzarella', 'parmesan', 'gorgonzola', 'ricotta', 'ovalini', 'cheddar
 # used in ing_parser.py
 measurement_bank = ['teaspoon', 'tablespoon', 'cup', 'lb', 'package', 'pinch', 'sprinkle', 'ounce', 'oz', 'stalk',
                     'whole', 'sprig', 'leaf', 'bottle', 'liter', 'pound', 'can', 'clove', 'head', 'slice', 'medium']
-prep_words = ['chop', 'peel', 'core', 'slice', 'mince', 'crush', 'rinse', 'grate', 'wash', 'beaten']
+prep_words = ['chop', 'peel', 'core', 'slice', 'mince', 'crush', 'rinse', 'grate', 'wash', 'beaten', 'drain', 'flake']
 
 
 # used in ing_sorter.py
@@ -34,7 +34,7 @@ veggies = ['amaranth leaves', 'arrowroot', 'artichoke', 'arugula', 'asparagus', 
            'radicchio', 'radish', 'rutabaga', 'salsify', 'oysterplant', 'shallot', 'snow peas', 'sorrel', 'dock',
            'squash', 'spinach', 'chard', 'tomatillo', 'tomato', 'turnip', 'watercress', 'yam', 'zucchini']
 # fruits found here: https://www.halfyourplate.ca/fruits-and-veggies/fruits-a-z/
-fruits = ['acerola', 'apple', 'apricots', 'avocado', 'banana', 'blackcurrant', 'cantaloupe', 'carambola', 'cherimoya',
+fruits = ['pineapple', 'acerola', 'apple', 'apricots', 'avocado', 'banana', 'blackcurrant', 'cantaloupe', 'carambola', 'cherimoya',
           'cherry', 'cherries', 'clementine', 'coconut', 'date', 'durian', 'feijoa', 'fig', 'grape', 'guava', 'melon',
           'kiwi', 'kumquat', 'lemon', 'lime', 'longan', 'loquat', 'lychee', 'mandarin', 'mango', 'mangosteen',
           'nectarine', 'olive', 'orange', 'papaya', 'peach', 'pear', 'persimmon', 'pitaya', 'pineapple', 'pitanga',
@@ -78,13 +78,14 @@ grains = ['amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'einkorn', 'farro
           'wheat', 'wild rice', 'flour', 'couscous']
 dairy = ['milk', 'butter', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato'] + cheese
 carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta', 'ramen', 'udon', 'soba', 'noodle'] + pasta
-toppings = ['sauce', 'sprinkle', 'garnish']
+toppings = ['sauce', 'sprinkle', 'garnish', 'marinara']
 
-not_protein = ['bouillon', 'broth', 'noodle']
+not_protein = ['bouillon', 'broth', 'noodle', 'seasoning']
 not_seasoning = ['butter']
 not_veg = ['sauce','paste', 'oil', 'vinegar', 'cider', 'broth', 'juice']
 not_fruit = ['sauce', 'oil', 'vinegar', 'cider', 'juice']
 not_carbs = ['sauce', 'seasoning']
+not_med = ['milk']
 
 # used in step_parser
 toollist = ['dipper', 'brasero', 'fillet knife', 'skillet', 'cheesemelter', 'range', 'processor', 'oven', 'thermometer',
@@ -113,11 +114,14 @@ not_vegetarian = meat
 cuisines = {
     'sorted_italian': {
         'protein': ['beef', 'prosciutto', 'chicken', 'salami', 'sausage', 'eggplant', 'ground beef'],
-        'vegetable': ['tomato', 'zucchini', 'cucumber', 'mushroom', 'broccolini', 'rabe', 'arugula', 'squash'],
-        'seasoning': ['garlic', 'parsley', 'basil', 'rosemary', 'oregano', 'caper', 'lemon', 'sugar'],
+        'vegetable': ['tomato', 'zucchini', 'cucumber', 'mushroom', 'broccolini', 'rabe', 'arugula', 'squash', 'potato',
+                      'carrot'],
+        'seasoning': ['garlic', 'parsley', 'basil', 'rosemary', 'oregano', 'caper', 'sugar', 'lime', 'lemon'],
         'dairy': cheese + ['cream', 'gelato'],
         'media': ['olive oil', 'balsamic vinegar', 'butter'],
-        'carb': pasta
+        'carb': pasta,
+        'topping': ['tomato sauce', 'marinara'],
+        'fruit': ['grape', 'apple', 'olive', 'peach', 'orange', 'nectarine']
     }
 }
 
@@ -163,14 +167,18 @@ descriptor_thing = {
                  'horseradish', 'parsnip', 'radish', 'rutabaga', 'salsify', 'sorrel', 'dock', 'chard', 'turnip', 'yam'],
     'spicy_seas': ['chiles', 'chili', 'carom', 'cayenne', 'togarashi', 'peppercorn'],
     'pungent_seas': ['peppercorn', 'cayenne', 'ginger', 'marjoram', 'oregano', 'rosemary', 'saffron', 'caper', 'garlic',
-                     'lemon'],
+                     'lemon', 'seasoning'],
     'sweet_seas': ['honey', 'sugar'],
-    'oil_med': ['oil', 'butter', 'margarine', 'olive oil'],
+    'oil_med': ['olive oil', 'vegetable oil', 'oil', 'butter', 'margarine'],
     'acidic_med': ['wine', 'vinegar', 'balsamic vinegar'],
-    'western_pasta': pasta,
-    'eastern_pasta': ['ramen', 'udon', 'soba', 'noodle'],
+    'pasta': pasta + ['ramen', 'udon', 'soba', 'noodle'],
+    'grain': ['rice', 'barley'],
     'solid_dairy': cheese,
-    'cream_dairy': ['milk', 'butter', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato']
+    'cream_dairy': ['milk', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato',
+                    'buttermilk', 'butter'],
+    'soft_fruit': ['banana', 'peach', 'pear', 'watermelon'],
+    'sweet_fruit': ['apple', 'coconut', 'grape'],
+    'citrus_fruit': ['pineapple', 'orange', 'nectarine']
 }
 
 thing_descriptor = {}

@@ -27,7 +27,7 @@ sorted_ings, sorted_ings_base = sorter(parsed_ingredients.keys())
 print("\nRETRIEVED:", recipe, '\n')
 print("PARSED INGREDIENTS", parsed_ingredients, '\n')
 print("PARSED STEPS", parsed_steps, '\n')
-print("SORTED INGREDIENTS", sorted_ings, sorted_ings_base, '\n')
+print("SORTED INGREDIENTS", sorted_ings, '\n', sorted_ings_base, '\n')
 
 print("Transforming", recipe['Name'], "\nPlease enter the number of the transformation you'd like to apply:")
 print("1: Double Ingredients")
@@ -52,7 +52,7 @@ elif transform == "4":
     pass
 elif transform == "5":
 
-    transformed_ing = cuisine_morph('italian', parsed_steps, parsed_ingredients, sorted_ings_base, sorted_ings)
+    transformed_ing = cuisine_morph('italian', parsed_steps, sorted_ings_base, sorted_ings)
 elif transform == "6":
     transformed_ing = health(parsed_ingredients,recipe,parsed_steps)
 else:
