@@ -10,11 +10,6 @@ from word_banks import toollist, measurement_bank
 list_of_time_words = ["until", "for"]
 
 def parse_steps(steps, ingredients):
-    hoot = "hoot"
-    hoot = hoot + ' '
-    hoot = hoot.replace('t ', '')
-    hoot = hoot + ' '
-    print(hoot)
     steps_by_number = {}
     #loop through the steps
     for step in steps:
@@ -25,7 +20,6 @@ def parse_steps(steps, ingredients):
             sentence_mod = sentence + " ."
             sentence_mod = sentence_mod.replace(',', '')
             reversed_sentence_mod = [ele for ele in reversed(sentence_mod.split())]
-            print(reversed_sentence_mod)
             sentence_dict = {}
             #tag the words in a sentence with a POS tagger
             tokens = nltk.word_tokenize(sentence_mod.lower())
@@ -78,8 +72,6 @@ def parse_steps(steps, ingredients):
                                         blocks_wout_s = blocks + ' '
                                         blocks_wout_s = blocks_wout_s.replace("s ", '')
                                         if blocks in measurement_bank or blocks_wout_s in measurement_bank:
-                                            print(reversed_sentence_mod[
-                                                      reversed_sentence_mod.index(blocks) + 1] + blocks)
                                             try:
                                                 try:
                                                     frac = unicodedata.numeric(reversed_sentence_mod[
@@ -99,7 +91,6 @@ def parse_steps(steps, ingredients):
                                             quantity_to_be_delete = blocks
                                             break
                                     ingredient_list.update({ingredient: quantity})
-                                    print()
                                     word_to_be_delete = ingredient
                                 if re.search(" " + ingredient + ",", sentence_mod):
                                     help_me = sentence_mod.replace(",", ' ')
@@ -108,7 +99,6 @@ def parse_steps(steps, ingredients):
                                         blocks_wout_s = blocks + ' '
                                         blocks_wout_s = blocks_wout_s.replace("s ", '')
                                         if blocks in measurement_bank or blocks_wout_s in measurement_bank:
-                                            print(reversed_sentence_mod[reversed_sentence_mod.index(blocks) + 1] + blocks)
                                             try:
                                                 try:
                                                     frac = unicodedata.numeric(reversed_sentence_mod[
@@ -136,8 +126,6 @@ def parse_steps(steps, ingredients):
                                             blocks_wout_s = blocks + ' '
                                             blocks_wout_s = blocks_wout_s.replace("s ", '')
                                             if blocks in measurement_bank or blocks_wout_s in measurement_bank:
-                                                print(reversed_sentence_mod[
-                                                          reversed_sentence_mod.index(blocks) + 1] + blocks)
                                                 try:
                                                     try:
                                                         frac = unicodedata.numeric(reversed_sentence_mod[
@@ -175,8 +163,6 @@ def parse_steps(steps, ingredients):
                                                     blocks_wout_s = blocks + ' '
                                                     blocks_wout_s = blocks_wout_s.replace("s ", '')
                                                     if blocks in measurement_bank or blocks_wout_s in measurement_bank:
-                                                        print(reversed_sentence_mod[
-                                                                  reversed_sentence_mod.index(blocks) + 1] + blocks)
                                                         try:
                                                             try:
                                                                 frac = unicodedata.numeric(reversed_sentence_mod[
@@ -215,8 +201,6 @@ def parse_steps(steps, ingredients):
                                                     blocks_wout_s = blocks + ' '
                                                     blocks_wout_s = blocks_wout_s.replace("s ", '')
                                                     if blocks in measurement_bank or blocks_wout_s in measurement_bank:
-                                                        print(reversed_sentence_mod[
-                                                                  reversed_sentence_mod.index(blocks) + 1] + blocks)
                                                         try:
                                                             try:
                                                                 frac = unicodedata.numeric(
@@ -261,8 +245,6 @@ def parse_steps(steps, ingredients):
                                                     blocks_wout_s = blocks + ' '
                                                     blocks_wout_s = blocks_wout_s.replace("s ", '')
                                                     if blocks in measurement_bank or blocks_wout_s in measurement_bank:
-                                                        print(reversed_sentence_mod[
-                                                                  reversed_sentence_mod.index(blocks) + 1] + blocks)
                                                         try:
                                                             try:
                                                                 frac = unicodedata.numeric(

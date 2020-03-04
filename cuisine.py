@@ -77,7 +77,10 @@ def add_replace_field(steps, to_replace, replace_with):
     for large_step, sentence_dict in steps.items():
         for sentence, sentence_things in sentence_dict.items():
             for verb, verb_things in sentence_things.items():
-                steps[large_step][sentence][verb].setdefault('replacement', []).append((to_replace, replace_with))
+                if to_replace in verb_things['Ingredients']:
+                    steps[large_step][sentence][verb].setdefault('replacement', []).append((to_replace, replace_with))
+                else:
+                    steps[large_step][sentence][verb].setdefault('replacement', [])
     return steps
 
 

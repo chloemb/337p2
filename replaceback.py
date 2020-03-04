@@ -4,62 +4,77 @@ def replace_back_steps(alldict,stepnew):
     # print(alldict)
     #print(alldict,"\n")
     #print(alldict,"\n",stepnew)
+    # print(alldict)
+
     entire_string = []
     for sentence, rest in alldict.items():
         finalver = sentence
         sentence=sentence.lower()
         adaptlist = []
         for verb, data in stepnew.items():
-            done = True
             if verb in sentence:
                 adaptlist.append(verb)
-                done = False
             try:
                 data['replacement'][verb]
                 adaptlist.append(verb)
-                done = False
             except:
                 pass
-        #print(adaptlist)
-
         for verb in adaptlist:
             if verb in sentence:
                 backup = sentence
                 recognizelist = []
+                # print("CHECK REPLACE", stepnew[verb])
                 for replacefrom, replaceinto in stepnew[verb]['replacement']:
-                    #print(stepnew[verb]['replacement'])
+                    # print("REPLACING HERE",stepnew[verb]['replacement'])
                     #print(replacefrom, replaceinto, finalver)
                     recognizelist += recognize_ingredient(replacefrom, sentence,replaceinto)
-
                 recognizelist.sort(reverse=True,key=helper2)
                 for thing,replace in recognizelist:
                     #print(thing,replace,finalver)
+                    # print(thing,replace)
                     finalver=finalver.replace(thing,replace)
-                
                 #print(finalver)
                 if backup != sentence:
                     stepnew.pop(verb)
-
+        # print(finalver)
         entire_string.append(finalver)
     #print(entire_string)
     return entire_string                
 
 #recognizies ingredient in the context of a sentence
 def recognize_ingredient(ingredient, sentence,replacement):
-
     retlist = []
     recognize = ""
-
+    #chloe caught bad substitutions here
     for word in range(len(sentence.split(" "))):
-        if (sentence.split(" ")[word] in ingredient) and (len(sentence.split(" ")[word]) > 2) and (len(sentence.split(" ")[word]) not in ignorelist):
-            while sentence.split(" ")[word] in ingredient and word < len(sentence.split(" ")):
+        if (depunctuate(sentence.split(" ")[word]) in ingredient) and (len(sentence.split(" ")[word]) > 2) and (len(sentence.split(" ")[word]) not in ignorelist):
+            while word < len(sentence.split(" ")) and depunctuate(sentence.split(" ")[word]) in ingredient:
+                #print("HERE>>>>>>")
                 recognize=recognize+(sentence.split(" ")[word]+" ")
                 word+=1
+            #print(recognize)
             recognize=recognize[:-1]
-            retlist.append((recognize,replacement))
+            if recognize != replacement:
+                retlist.append((recognize,repunctuate(recognize,replacement)))
             recognize = ''
     retlist.sort(key=lenhelp,reverse=True)
+    #print(retlist)
     return retlist
+
+def depunctuate(word):
+    # I ADDED / BACK IN HERE FOR THE PURPOSE OF FRACTIONS -chloe
+    punctuations = '\'!()-[]\{\};:\"\,<>.?@#$%^&*_~'
+    for char in punctuations:
+        if char in word:
+            word=word.replace(char,"")
+    return word
+
+def repunctuate(pword, replaceword):
+    punctuations = '\'!()-[]\{\};:\"\,<>.?@#$%^&*_~'
+    for char in punctuations:
+        if char == pword[-1]:
+            return replaceword+char
+    return replaceword
 
 
 ignorelist=['that','which','then','the','and']
@@ -86,9 +101,9 @@ def determine_measure(dict):
         quantity = dict['Quantity']
     except:
         pass
+
     for m in measure:
-        #print(m,m[:-1],m[-1])
-        if m[-1]=="s":
+        while len(m) >= 1 and m[-1]=="s":
             m=m[:-1]
     if measure ==[]:
         if quantity == []:
@@ -102,7 +117,10 @@ def determine_measure(dict):
         sstring = ""
         if sum(quantity) != 1.0:
             sstring = "s"
-        return str(sum(quantity)).replace(".0","") +" "+ measure[0].capitalize()+sstring+" "
+        trimmeasure = measure[0]
+        if trimmeasure[-1] == 's':
+            trimmeasure = trimmeasure[:-1]
+        return str(sum(quantity)).replace(".0","") +" "+ trimmeasure.capitalize()+sstring+" "
 
     measures = {"delete":'lol'}
     measures.pop('delete') #I couldn't find the actual initialize command
@@ -115,7 +133,7 @@ def determine_measure(dict):
             measures[measure[x]] = quantity[x]
     for m,q in measures.items():
         sstring = ""
-        if q != 1.0:
+        if len(m) >= 1 and q != 1.0 and m[-1] != "s":
             sstring = "s"
         returnstr += " and "  + str(q).replace(".0","")+" " +m.capitalize()+sstring
     return returnstr.replace(" and ","",1)+" "
@@ -142,11 +160,8 @@ def replace_back_ingredients(parseingredients, newdict):
     return newingredients
 
 def render_recipe(ingredients, steps, bigsteps):
-    print(ingredients,"\n",steps)
     newingredients = replace_back_ingredients(bigsteps,ingredients)
     newsteps = replace_back_steps(bigsteps,steps)
-    print(newingredients,"\n",newsteps)
-    sys.exit()
     print("***INGREDIENTS***\n")
     for ingredient in newingredients:
         print(ingredient)
