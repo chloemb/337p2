@@ -4,12 +4,22 @@ from lxml import html
 
 def retrieve_dict():
     print("Please input a url from Recipes.com OR a search term")
+
     url = input()
-    if "http" not in url and not url=="":
-        url = 'https://www.allrecipes.com/search/results/?wt=%s&sort=re' % (url.replace(' ', '+'))
-        search_page = requests.get(url)
-        search_data = html.fromstring(search_page.content)
-        url = search_data.xpath('//div[@class="grid-card-image-container"]//a/@href')[0]
+
+    while True:
+        try:
+            if "http" not in url and not url == "":
+                url = 'https://www.allrecipes.com/search/results/?wt=%s&sort=re' % (url.replace(' ', '+'))
+                search_page = requests.get(url)
+                search_data = html.fromstring(search_page.content)
+                url = search_data.xpath('//div[@class="grid-card-image-container"]//a/@href')[0]
+                break
+            else:
+                break
+        except:
+            print("Not found - please try again")
+            url = input()
 
     #Default to a random recipe if blank, for testing
     if url=="":
@@ -64,7 +74,7 @@ def retrieve_dict():
             #print('/html/body/div[1]/div[2]/div/div[3]/section/section[1]/div[2]/ul[1]/li[' + str(i) + ']/label/span/text()')
             ingredient = data.xpath('/html/body/div[1]/div/main/div[1]/div[2]/div[1]/div[2]/div[2]/div[4]/section[1]/fieldset/ul/li['+str(i)+']/label/span/span/text()')
             if ingredient == []:
-                print(i)
+                # print(i)
                 ul += 1
                 i = 1
                 break

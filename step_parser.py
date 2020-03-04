@@ -266,5 +266,5 @@ def parse_steps(steps, ingredients):
             if sentence == '.':
                 del step_parsed['.']
         steps_by_number[''.join(step)] = step_parsed
-    print(steps_by_number)
+    # print(steps_by_number)
     return steps_by_number

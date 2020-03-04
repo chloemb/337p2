@@ -6,10 +6,13 @@ def double_halve(steps, ing_dict, to_double):
     new_ing_list = []
     for ing in ing_dict.keys():
         new_entry = ing_dict[ing]
-        if to_double:
-            new_entry['Quantity'][0] = ing_dict[ing]['Quantity'][0] * 2
-        else:
-            new_entry['Quantity'][0] = ing_dict[ing]['Quantity'][0] / 2
+        for quant_entry in ing_dict[ing]['Quantity']:
+            if to_double:
+                new_entry['Quantity'][ing_dict[ing]['Quantity'].index(quant_entry)] = \
+                    ing_dict[ing]['Quantity'][ing_dict[ing]['Quantity'].index(quant_entry)] * 2
+            else:
+                new_entry['Quantity'][ing_dict[ing]['Quantity'].index(quant_entry)] = \
+                    ing_dict[ing]['Quantity'][ing_dict[ing]['Quantity'].index(quant_entry)] / 2
         measure = new_entry.get('Measurement')[0] if new_entry.get('Measurement') else ""
         other = new_entry.get('Other')[0] if new_entry.get('Other') else ""
         to_append = str(new_entry['Quantity'][0]) + " " + measure + " " + ing
@@ -18,9 +21,7 @@ def double_halve(steps, ing_dict, to_double):
         new_ing_list.append(to_append)
         ing_dict[ing]['Quantity'] = new_entry['Quantity']
     steps = add_replace_field(steps, to_double)
-    print('NEW ing', ing_dict)
     steps = make_all_verbs(steps)
-    print('NEW STEPS', steps)
     return steps, ing_dict
 
 
@@ -47,9 +48,9 @@ def add_replace_field(steps, to_double):
                                 new_quantity = float(frac) * 2
                             else:
                                 new_quantity = float(frac) / 2
-                            replace_with = str(new_quantity) + ' ' + split_measure[1]
+                            # replace_with = str(new_quantity) + ' ' + split_measure[1]
                             steps[large_step][sentence][verb].setdefault('replacement', []).\
-                                append((ing_value, replace_with))
+                                append((str(split_measure[0]), str(new_quantity)))
                 steps[large_step][sentence][verb].setdefault('replacement', [])
     return steps
 

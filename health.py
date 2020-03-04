@@ -21,7 +21,7 @@ def health(ingredients,recipe,steps):
             for ingredient,details in ingredients.items():
                 #print(done)
                 if decide_replace(ingredient,yummy):
-                    print("here", done, ingredient,yummy)
+                    # print("here", done, ingredient,yummy)
                     done = False
                     #print(yummy, ingredient)
                     adapt_thing(ingredients,newsteps,ingredient,replace)
