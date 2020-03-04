@@ -6,7 +6,7 @@ from ing_sorter import sorter
 from vegetarianify import vegetarian
 from cuisine import cuisine_morph
 from health import health
-from replaceback import replace_back_steps, replace_back_ingredients
+from replaceback import replace_back_steps, replace_back_ingredients,render_recipe
 #from cuisine import cuisine_morph
 
 recipe = retrieve_dict()
@@ -49,7 +49,8 @@ elif transform == "4":
     transformed_ing = vegetarian(parsed_ingredients, recipe, parsed_steps)
     #print(parsed_steps)
     #print(replace_back_steps(parsed_steps,transformed_ing[1]))
-    replace_back_ingredients(parsed_ingredients,transformed_ing[0])
+    #replace_back_ingredients(parsed_ingredients,transformed_ing[0])
+    render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps)
     #replace_back_steps(parsed_steps,transformed_ing[1])
     pass
 elif transform == "5":
