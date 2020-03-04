@@ -87,7 +87,7 @@ def determine_measure(dict):
     except:
         pass
     for m in measure:
-        print(m,m[:-1],m[-1])
+        #print(m,m[:-1],m[-1])
         if m[-1]=="s":
             m=m[:-1]
     if measure ==[]:
