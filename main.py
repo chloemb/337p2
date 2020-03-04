@@ -41,10 +41,10 @@ transform = input()
 
 if transform == "1":
     new_steps, transformed_ing = double_halve(parsed_steps, parsed_ingredients, True)
-    replace_back_ingredients(parsed_ingredients, new_steps)
+    render_recipe(transformed_ing, new_steps, parsed_steps)
 elif transform == "2":
     new_steps, transformed_ing = double_halve(parsed_steps, parsed_ingredients, False)
-    replace_back_ingredients(parsed_ingredients, new_steps)
+    render_recipe(transformed_ing, new_steps, parsed_steps)
 elif transform == "4":
     transformed_ing = vegetarian(parsed_ingredients, recipe, parsed_steps)
     #print(parsed_steps)
@@ -54,8 +54,9 @@ elif transform == "4":
     #replace_back_steps(parsed_steps,transformed_ing[1])
     pass
 elif transform == "5":
-
-    transformed_ing = cuisine_morph('italian', parsed_steps, sorted_ings_base, sorted_ings)
+    new_steps, new_ing = cuisine_morph('italian', parsed_steps, sorted_ings_base, sorted_ings, parsed_ingredients)
+    print("new steps", new_steps)
+    render_recipe(new_ing, new_steps, parsed_steps)
 elif transform == "6":
     transformed_ing = health(parsed_ingredients,recipe,parsed_steps)
 else:

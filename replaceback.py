@@ -1,7 +1,7 @@
 
 
 def replace_back_steps(alldict,stepnew):
-    print(alldict)
+    # print(alldict)
     #print(alldict,"\n")
     #print(alldict,"\n",stepnew)
     entire_string = []

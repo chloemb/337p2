@@ -1,7 +1,7 @@
 import word_banks
 
 
-def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase):
+def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase, parsed_ings):
     # categories that ingredients can be sorted into
     ingredient_types = ['Protein', 'Vegetables', 'Seasonings', 'Cooking Medium', 'Carbs', 'Dairy', 'Fruits']
 
@@ -14,6 +14,10 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase):
                              'Cooking Medium': ['oil_med', 'acidic_med'],
                              'Fruits': ['soft_fruit', 'sweet_fruit', 'citrus_fruit']}
 
+    new_parsed_ing = {}
+
+    been_replaced = []
+
     for ing_type in ingredient_types:
         ing_list = sorted_ing.get(ing_type)
         if ing_list:
@@ -22,22 +26,28 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase):
                 # find descriptors of certain ingredient
                 descriptor = word_banks.thing_descriptor.get(ing)
                 real_ing = sorted_ing_unbase[ing_type][ing_list.index(ing)]
-                not_yet = True
                 if descriptor:
                     # for each kind of this certain ing type, find one in the appropriate cuisine
                     for ing_type_type in ingredient_type_types[ing_type]:
                         if ing_type_type in descriptor:
-                            not_yet = False
                             new_ing = find_item([ing_type_type], cuisine, (ing, real_ing))
+                            been_replaced.append(ing)
                             new_ing_list.append((real_ing, new_ing))
                             # note replacement in steps
                             steps = add_replace_field(steps, real_ing, new_ing)
+                            # note replacement in parsed ing
+                            new_parsed_ing[new_ing] = parsed_ings[real_ing]
                             # LEAVE THIS PRINT STATEMENT IN
                             if new_ing not in real_ing:
-                                print("Replacing", real_ing, "with", new_ing)
-                if not_yet:
+                                print("REPLACING", real_ing, "with", new_ing)
+                if ing not in been_replaced:
+                    new_parsed_ing[real_ing] = parsed_ings[real_ing]
                     new_ing_list.append((real_ing, real_ing))
             sorted_ing[ing_type] = new_ing_list
+
+    # for all_ing in parsed_ings.keys():
+    #     if all_ing not in new_parsed_ing.keys():
+    #         new_parsed_ing[all_ing] = parsed_ings[all_ing]
 
     # print("NEW SORTED ING", sorted_ing, "\n\n")
     #
@@ -45,7 +55,8 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase):
 
     # in sorted ing tuples, the first thing is the ingredient we're replacing,
     # the second is the thing to replace it with
-    return steps, sorted_ing
+    steps = make_all_verbs(steps)
+    return steps, new_parsed_ing
 
 
 def find_item(attributes, cuisine, ing_pair):
@@ -58,13 +69,22 @@ def find_item(attributes, cuisine, ing_pair):
             for word_bank_item in word_banks.cuisines[cuisine]:
                 if thing in word_bank_item:
                     return word_bank_item
-    # print("tried to find item", attributes, cuisine)
+    print("tried to find item", attributes, cuisine)
     return "Not Found"
 
 
 def add_replace_field(steps, to_replace, replace_with):
-    for large_step in steps.keys():
-        for sentence in steps[large_step].keys():
-            sentence_dict = steps[large_step][sentence]
-            sentence_dict.setdefault('replacement', []).append((to_replace, replace_with))
+    for large_step, sentence_dict in steps.items():
+        for sentence, sentence_things in sentence_dict.items():
+            for verb, verb_things in sentence_things.items():
+                steps[large_step][sentence][verb].setdefault('replacement', []).append((to_replace, replace_with))
     return steps
+
+
+def make_all_verbs(steps):
+    new_steps = {}
+    for large_step, sentence_dict in steps.items():
+        for sentence, sentence_things in sentence_dict.items():
+            for verb, verb_things in sentence_things.items():
+                new_steps[verb] = verb_things
+    return new_steps
