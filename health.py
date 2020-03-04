@@ -23,7 +23,7 @@ def health(ingredients,recipe,steps):
                 if decide_replace(ingredient,yummy):
                     # print("here", done, ingredient,yummy)
                     done = False
-                    #print(yummy, ingredient)
+                    print(yummy, ingredient)
                     adapt_thing(ingredients,newsteps,ingredient,replace)
                     break
                 

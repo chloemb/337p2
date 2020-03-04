@@ -49,7 +49,7 @@ def recognize_ingredient(ingredient, sentence,replacement):
     for word in range(len(sentence.split(" "))):
         if (depunctuate(sentence.split(" ")[word]) in ingredient) and (len(sentence.split(" ")[word]) > 2) and (len(sentence.split(" ")[word]) not in ignorelist):
             while word < len(sentence.split(" ")) and depunctuate(sentence.split(" ")[word]) in ingredient:
-                #print("HERE>>>>>>")
+                # print("HERE>>>>>>")
                 recognize=recognize+(sentence.split(" ")[word]+" ")
                 word+=1
             #print(recognize)
