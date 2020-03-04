@@ -70,6 +70,12 @@ def lenhelp(str):
 def helper2(list):
     return len(list[0])
 
+def determine_measure(dict):
+    try:
+        pass
+    except:
+        pass
+
 def replace_back_ingredients(parseingredients, newdict):
     newingredients = []
     print(newdict)
@@ -77,16 +83,16 @@ def replace_back_ingredients(parseingredients, newdict):
         print(details)
         capitalized = False
         entry = "- "
-        
+        determine_measure(details)
         try:
-            entry += str(sum(details['Quantity']).replace(".0","") + " "
+            entry += str(sum(details['Quantity'])).replace(".0","") + " "
         except:
             pass
         try:
             if(len(details['Measurement']) > 1 and any(measure != details['Measurement'] for measure in details(Measurement))):
                 
-            entry+= details['Measurement'].capitalize() + " "
-            capitalized = True
+                entry+= details['Measurement'].capitalize() + " "
+                capitalized = True
         except:
             pass
         #how are we supposed to handle separate prep steps?
