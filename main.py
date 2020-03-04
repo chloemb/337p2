@@ -40,9 +40,11 @@ print("6: Make healthy\n")
 transform = input()
 
 if transform == "1":
-    transformed_ing = double_halve(parsed_ingredients, True)
+    new_steps, transformed_ing = double_halve(parsed_steps, parsed_ingredients, True)
+    replace_back_ingredients(parsed_ingredients, new_steps)
 elif transform == "2":
-    transformed_ing = double_halve(parsed_ingredients, False)
+    new_steps, transformed_ing = double_halve(parsed_steps, parsed_ingredients, False)
+    replace_back_ingredients(parsed_ingredients, new_steps)
 elif transform == "4":
     transformed_ing = vegetarian(parsed_ingredients, recipe, parsed_steps)
     #print(parsed_steps)
