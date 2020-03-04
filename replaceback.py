@@ -24,6 +24,8 @@ def replace_back_steps(alldict,stepnew):
                 backup = sentence
                 recognizelist = []
                 # print("CHECK REPLACE", stepnew[verb])
+                if not stepnew[verb].get('replacement'):
+                    continue
                 for replacefrom, replaceinto in stepnew[verb]['replacement']:
                     # print("REPLACING HERE",stepnew[verb]['replacement'])
                     #print(replacefrom, replaceinto, finalver)
