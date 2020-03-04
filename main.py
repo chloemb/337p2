@@ -4,6 +4,9 @@ from step_parser import parse_steps
 from double_halve import double_halve
 from ing_sorter import sorter
 from vegetarianify import vegetarian
+from cuisine import cuisine_morph
+from health import health
+from replaceback import replace_back_steps, replace_back_ingredients
 #from cuisine import cuisine_morph
 
 recipe = retrieve_dict()
@@ -31,7 +34,9 @@ print("1: Double Ingredients")
 print("2: Halve Ingredients")
 print("3: Change cuisine to ___")
 print("4: Make vegetarian")
-print("5: Make Italian\n")
+print("5: Make Italian")
+print("6: Make healthy\n")
+
 transform = input()
 
 if transform == "1":
@@ -40,9 +45,17 @@ elif transform == "2":
     transformed_ing = double_halve(parsed_ingredients, False)
 elif transform == "4":
     transformed_ing = vegetarian(parsed_ingredients, recipe, parsed_steps)
+    #print(parsed_steps)
+    #print(replace_back_steps(parsed_steps,transformed_ing[1]))
+    replace_back_ingredients(parsed_ingredients,transformed_ing[0])
+    #replace_back_steps(parsed_steps,transformed_ing[1])
+    pass
 elif transform == "5":
+
     transformed_ing = cuisine_morph('italian', parsed_steps, parsed_ingredients, sorted_ings_base, sorted_ings)
+elif transform == "6":
+    transformed_ing = health(parsed_ingredients,recipe,parsed_steps)
 else:
     transformed_ing = "Not assigned"
 
-print(transformed_ing)
+#print(transformed_ing)

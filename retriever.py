@@ -102,5 +102,3 @@ def retrieve_dict():
             changeu = False
     ret = {'Name':title,"Ingredients":ingredientlist,"Procedure":steplist}
     return ret
-
-    

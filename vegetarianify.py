@@ -8,8 +8,8 @@ def vegetarian(ingredients,recipe,steps):
         for why,actually in thing.items():
             for key,contents in actually.items():
                 newsteps[key]=contents
+                newsteps[key]['replacement']=[]
 
-    steps=newsteps
 
     #check to see if anything needs to be done
     #if it does, store non-vegetarian things in a list
@@ -24,7 +24,7 @@ def vegetarian(ingredients,recipe,steps):
     if vegetarian:
         return ingredients,recipe,steps
 
-    print(non_veg)
+
     for problem in non_veg:
         resolved = False
         #deal w specific things (spices, bouillon)
@@ -32,28 +32,29 @@ def vegetarian(ingredients,recipe,steps):
             if edge in problem:
                 resolved=True
                 ingredients[replace] = ingredients[problem]
-                for stepverb, stepstuff in steps.items():
+                for stepverb, stepstuff in newsteps.items():
                     if problem in stepstuff['Ingredients']:
-                        stepstuff['Ingredients'].append(replace)
-                        stepstuff['Ingredients'].remove(problem)
+                        stepstuff['Ingredients'][replace] = ''
+                        stepstuff['Ingredients'].pop(problem)
+                        stepstuff['replacement'].append((problem,replace))
                 ingredients.pop(problem)
         if not resolved:
-            adapt(ingredients,steps,problem, recipe)
+            adapt(ingredients,newsteps,problem, recipe)
             
 
-    return ingredients, steps
+    return ingredients, newsteps
 
         
 
         
     
              
-def decide_replace(problem,steps,recipe):
+def decide_replace(problem,newsteps,recipe):
     #try to figure protein recommendation based on type of food
     foodtype = ""
     #try to figure protein recommendation based on things done to ingredients here
     #fancier version will add probabilities or something
-    for stepv,stepstuff in steps.items():
+    for stepv,stepstuff in newsteps.items():
         if problem not in stepstuff['Ingredients']:
             continue
         for classifier in [main,stewey,greenmix]:
@@ -73,25 +74,29 @@ def decide_replace(problem,steps,recipe):
 
 
 
-def adapt(ingredients, steps,problem,recipe):
-    new = decide_replace(problem,steps,recipe)
+def adapt(ingredients, newsteps,problem,recipe):
+    new = decide_replace(problem,newsteps,recipe)
     #if its already there, all we have to do is add seitan and switch mentions of problem ingredient to seitan.
     try:
         ingredients[new]['quantity'] += ingredients[new]['quantity']
-        for stepverb, stepstuff in steps.items():
+        for stepverb, stepstuff in newsteps.items():
             if problem in stepstuff['Ingredients']:
-                stepstuff['Ingredients'].append(new)
-                stepstuff['Ingredients'].remove(problem)
+                if (problem,replacement) not in stepstuff['replacement']:
+                    stepstuff['replacement'].append((problem,new))
+                stepstuff['Ingredients'][new]=""
+                stepstuff['Ingredients'].pop(problem)
         ingredients.pop(problem)
         return
     #else for ingredients we make it take the quantity and details of the original
     #for steps we append basic prep for the ingredient in question
     except:
         ingredients[new] = ingredients[problem]
-        for stepverb, stepstuff in steps.items():
+        for stepverb, stepstuff in newsteps.items():
             if problem in stepstuff['Ingredients']:
-                stepstuff['Ingredients'].append(new)
-                stepstuff['Ingredients'].remove(problem)
+                if (problem,new) not in stepstuff['replacement']:
+                    stepstuff['replacement'].append((problem,new))
+                stepstuff['Ingredients'][new]=''
+                stepstuff['Ingredients'].pop(problem)
             #also add prep for the ingredient??
         ingredients.pop(problem)
         
@@ -113,4 +118,4 @@ stewey = {'title':['soup','curry','stew'],'steps':['marinate','steep','steam','b
 greenmix = {'title':['salad','greens'],'steps':['toss'],'ret':'tempeh'}
 
 #add more to these?
-edgefoods = {'bouillon':'vegetable bouillon','broth':'vegetable broth','fat':'lard','seasoning':'allspice'}
+edgefoods = {'bouillon':'vegetable bouillon','broth':'vegetable broth','fat':'lard','seasoning':'allspice','meat':'dish'}
