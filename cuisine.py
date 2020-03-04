@@ -31,15 +31,16 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase, parsed_ings):
                     for ing_type_type in ingredient_type_types[ing_type]:
                         if ing_type_type in descriptor:
                             new_ing = find_item([ing_type_type], cuisine, (ing, real_ing))
-                            been_replaced.append(ing)
-                            new_ing_list.append((real_ing, new_ing))
-                            # note replacement in steps
-                            steps = add_replace_field(steps, real_ing, new_ing)
-                            # note replacement in parsed ing
-                            new_parsed_ing[new_ing] = parsed_ings[real_ing]
-                            # LEAVE THIS PRINT STATEMENT IN
-                            if new_ing not in real_ing:
-                                print("REPLACING", real_ing, "with", new_ing)
+                            if new_ing:
+                                been_replaced.append(ing)
+                                new_ing_list.append((real_ing, new_ing))
+                                # note replacement in steps
+                                steps = add_replace_field(steps, real_ing, new_ing)
+                                # note replacement in parsed ing
+                                new_parsed_ing[new_ing] = parsed_ings[real_ing]
+                                # LEAVE THIS PRINT STATEMENT IN
+                                if new_ing not in real_ing:
+                                    print("REPLACING", real_ing, "with", new_ing)
                 if ing not in been_replaced:
                     new_parsed_ing[real_ing] = parsed_ings[real_ing]
                     new_ing_list.append((real_ing, real_ing))
@@ -70,14 +71,17 @@ def find_item(attributes, cuisine, ing_pair):
                 if thing in word_bank_item:
                     return word_bank_item
     print("tried to find item", attributes, cuisine)
-    return "Not Found"
+    return False
 
 
 def add_replace_field(steps, to_replace, replace_with):
     for large_step, sentence_dict in steps.items():
         for sentence, sentence_things in sentence_dict.items():
             for verb, verb_things in sentence_things.items():
-                steps[large_step][sentence][verb].setdefault('replacement', []).append((to_replace, replace_with))
+                if to_replace in verb_things['Ingredients']:
+                    steps[large_step][sentence][verb].setdefault('replacement', []).append((to_replace, replace_with))
+                else:
+                    steps[large_step][sentence][verb].setdefault('replacement', [])
     return steps
 
 

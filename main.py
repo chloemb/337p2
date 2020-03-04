@@ -8,6 +8,7 @@ from cuisine import cuisine_morph
 from health import health
 from replaceback import replace_back_steps, replace_back_ingredients,render_recipe
 #from cuisine import cuisine_morph
+import sys
 
 recipe = retrieve_dict()
 #Returns a dict. "Name", "Ingredients" and "Procedure" return appropriate information in a list (except name. Name is not in a list)
@@ -24,18 +25,17 @@ for deletething in deletelist:
 parsed_steps = parse_steps(recipe['Procedure'], parsed_ingredients)
 sorted_ings, sorted_ings_base = sorter(parsed_ingredients.keys())
 
-print("\nRETRIEVED:", recipe, '\n')
+# print("\nRETRIEVED:", recipe, '\n')
 print("PARSED INGREDIENTS", parsed_ingredients, '\n')
 print("PARSED STEPS", parsed_steps, '\n')
-print("SORTED INGREDIENTS", sorted_ings, '\n', sorted_ings_base, '\n')
+# print("SORTED INGREDIENTS", sorted_ings, '\n', sorted_ings_base, '\n')
 
 print("Transforming", recipe['Name'], "\nPlease enter the number of the transformation you'd like to apply:")
 print("1: Double Ingredients")
 print("2: Halve Ingredients")
-print("3: Change cuisine to ___")
+print("3: Change cuisine to a more Italian style")
 print("4: Make vegetarian")
-print("5: Make Italian")
-print("6: Make healthy\n")
+print("5: Make healthy\n")
 
 transform = input()
 

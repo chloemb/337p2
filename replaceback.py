@@ -25,20 +25,21 @@ def replace_back_steps(alldict,stepnew):
 
             if verb in sentence:
                 backup = sentence
+                recognizelist = []
+                # print("CHECK REPLACE", stepnew[verb])
                 for replacefrom, replaceinto in stepnew[verb]['replacement']:
-                    if replacefrom==replaceinto:
-                        continue
-                    #print(stepnew[verb]['replacement'])
+                    # print("REPLACING HERE",stepnew[verb]['replacement'])
                     #print(replacefrom, replaceinto, finalver)
                     recognizelist += recognize_ingredient(replacefrom, sentence,replaceinto)
-                print(finalver)
-        recognizelist.sort(reverse=True,key=helper2)
-        finalver = applylist(recognizelist, finalver)
-        for thing,replace in recognizelist:
-            #print(thing,replace,finalver)
-            #print(thing,replace)
-            finalver=finalver.replace(thing,replace)
-        print(finalver)
+                recognizelist.sort(reverse=True,key=helper2)
+                for thing,replace in recognizelist:
+                    #print(thing,replace,finalver)
+                    # print(thing,replace)
+                    finalver=finalver.replace(thing,replace)
+                #print(finalver)
+                if backup != sentence:
+                    stepnew.pop(verb)
+        # print(finalver)
         entire_string.append(finalver)
     #print(entire_string)
     return entire_string                
@@ -60,7 +61,7 @@ def recognize_ingredient(ingredient, sentence,replacement):
     for word in range(len(sentence.split(" "))):
         if (depunctuate(sentence.split(" ")[word]) in ingredient) and (len(sentence.split(" ")[word]) > 2) and (len(sentence.split(" ")[word]) not in ignorelist):
             while word < len(sentence.split(" ")) and depunctuate(sentence.split(" ")[word]) in ingredient:
-                #print("HERE>>>>>>")
+                # print("HERE>>>>>>")
                 recognize=recognize+(sentence.split(" ")[word]+" ")
                 word+=1
             #print(recognize)
@@ -73,14 +74,14 @@ def recognize_ingredient(ingredient, sentence,replacement):
     return retlist
 
 def depunctuate(word):
-    punctuations = '\'!()-[]\{\};:\"\,<>./?@#$%^&*_~'
+    punctuations = '\'!()-[]\{\};:\"\/,<>.?@#$%^&*_~'
     for char in punctuations:
         if char in word:
             word=word.replace(char,"")
     return word
 
 def repunctuate(pword, replaceword):
-    punctuations = '\'!()-[]\{\};:\"\,<>./?@#$%^&*_~'
+    punctuations = '\'!()-[]\{\};:\"\/,<>.?@#$%^&*_~'
     for char in punctuations:
         if char == pword[-1]:
             return replaceword+char
@@ -113,8 +114,7 @@ def determine_measure(dict):
         pass
 
     for m in measure:
-        #print(m,m[:-1],m[-1])
-        while m[-1]=="s":
+        while len(m) >= 1 and m[-1]=="s":
             m=m[:-1]
     if measure ==[]:
         if quantity == []:
@@ -144,7 +144,7 @@ def determine_measure(dict):
             measures[measure[x]] = quantity[x]
     for m,q in measures.items():
         sstring = ""
-        if q != 1.0 and m[-1] != "s":
+        if len(m) >= 1 and q != 1.0 and m[-1] != "s":
             sstring = "s"
         returnstr += " and "  + str(q).replace(".0","")+" " +m.capitalize()+sstring
     return returnstr.replace(" and ","",1)+" "
