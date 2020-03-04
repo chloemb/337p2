@@ -1,7 +1,8 @@
 
 
 def replace_back_steps(alldict,stepnew):
-    print(alldict,"\n")
+    print(alldict)
+    #print(alldict,"\n")
     #print(alldict,"\n",stepnew)
     entire_string = []
     for sentence, rest in alldict.items():
@@ -40,7 +41,7 @@ def replace_back_steps(alldict,stepnew):
                     stepnew.pop(verb)
 
         entire_string.append(finalver)
-    print(entire_string)
+    #print(entire_string)
     return entire_string                
 
 #recognizies ingredient in the context of a sentence
@@ -71,42 +72,77 @@ def helper2(list):
     return len(list[0])
 
 def determine_measure(dict):
+    #Behold the tragic consequences of not wanting to mess w your friends code
+    #and it being awkward for the thing you were asked to do
+    #and it became this ugly thing
+    #it says something about the importance of open communication
+    measure = []
+    quantity = []
     try:
-        pass
+        measure = dict['Measurement']
     except:
         pass
+    try:
+        quantity = dict['Quantity']
+    except:
+        pass
+    for m in measure:
+        print(m,m[:-1],m[-1])
+        if m[-1]=="s":
+            m=m[:-1]
+    if measure ==[]:
+        if quantity == []:
+            return ""
+
+        return str(sum(quantity)).replace(".0","")+ " "
+    if quantity == []:
+        return "A "+ measure[0].capitalize() + " of "
+    
+    if len(measure) == 1:
+        sstring = ""
+        if sum(quantity) != 1.0:
+            sstring = "s"
+        return str(sum(quantity)).replace(".0","") +" "+ measure[0].capitalize()+sstring+" "
+
+    measures = {"delete":'lol'}
+    measures.pop('delete') #I couldn't find the actual initialize command
+    returnstr = ""
+    for x in range(min(len(measure),len(quantity))):
+        #print(measure,quantity,measures,x)
+        try: 
+            measures[measure[x]] += quantity[x]
+        except:
+            measures[measure[x]] = quantity[x]
+    for m,q in measures.items():
+        sstring = ""
+        if q != 1.0:
+            sstring = "s"
+        returnstr += " and "  + str(q).replace(".0","")+" " +m.capitalize()+sstring
+    return returnstr.replace(" and ","",1)+" "
+
 
 def replace_back_ingredients(parseingredients, newdict):
     newingredients = []
-    print(newdict)
+    #print(newdict)
     for ingredient, details in newdict.items():
-        print(details)
+        #print(details)
         capitalized = False
         entry = "- "
-        determine_measure(details)
-        try:
-            entry += str(sum(details['Quantity'])).replace(".0","") + " "
-        except:
-            pass
-        try:
-            if(len(details['Measurement']) > 1 and any(measure != details['Measurement'] for measure in details(Measurement))):
-                
-                entry+= details['Measurement'].capitalize() + " "
-                capitalized = True
-        except:
-            pass
+        entry = determine_measure(details)
+        if entry != "- ":
+            capitalized=True
         #how are we supposed to handle separate prep steps?
         #That would go here regardless
         if not capitalized:
             entry += ingredient.capitalize()+"\n"
         else:
             entry+=ingredient + "\n"
-        print(entry)
+        #print(entry)
         newingredients.append(entry)
     return newingredients
 
 def render_recipe(ingredients, steps, bigsteps):
-    newingredients = replace_back_ingredients(ingredients,steps)
+    newingredients = replace_back_ingredients(bigsteps,ingredients)
     newsteps = replace_back_steps(bigsteps,steps)
     print("***INGREDIENTS***\n")
     for ingredient in newingredients:
