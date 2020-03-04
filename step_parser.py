@@ -29,6 +29,8 @@ def parse_steps(steps, ingredients):
             timing = ''
             part_of_time = False
             most_recent_adverb = ''
+            last_measurement_index = -1
+
             for pairs in tagged:
                 if start_verb is True:
                     if part_of_time is True:
@@ -65,8 +67,9 @@ def parse_steps(steps, ingredients):
                             quantity = ''
                             if ingredient not in ingredient_list:
                                 if re.search(" " + ingredient + " ", sentence_mod):
-                                    print("ingredient:")
-                                    for blocks in sentence_mod.split()[:sentence_mod.split().index(ingredient.split()[0])]:
+                                    for blocks in sentence_mod.split()[last_measurement_index + 1:
+                                    sentence_mod.split().index(ingredient.split()[0])]:
+                                        blocks.replace("s ", '')
                                         if blocks in measurement_bank:
                                             try:
                                                 try:
@@ -80,14 +83,16 @@ def parse_steps(steps, ingredients):
                                                 frac = False
                                             if frac:
                                                 quantity = str(frac) + " " + blocks
-                                    print(ingredient_list)
+                                            else:
+                                                quantity = blocks
+                                            last_measurement_index = sentence_mod.split().index(blocks)
                                     ingredient_list.update({ingredient: quantity})
-                                    print(ingredient_list)
                                     word_to_be_delete = ingredient
                                 if re.search(" " + ingredient + ",", sentence_mod):
-                                    print("ingredient:")
                                     help_me = sentence_mod.replace(",", ' ')
-                                    for blocks in help_me.split()[:help_me.split().index(ingredient.split()[0])]:
+                                    for blocks in help_me.split()[last_measurement_index + 1:
+                                    help_me.split().index(ingredient.split()[0])]:
+                                        blocks.replace("s ", '')
                                         if blocks in measurement_bank:
                                             try:
                                                 try:
@@ -101,11 +106,16 @@ def parse_steps(steps, ingredients):
                                                 frac = False
                                             if frac:
                                                 quantity = str(frac) + " " + blocks
+                                            else:
+                                                quantity = blocks
+                                            last_measurement_index = sentence_mod.split().index(blocks)
                                     ingredient_list.update({ingredient: quantity})
                                     word_to_be_delete = ingredient
-                                    if re.search(" " + ingredient + ";", sentence_mod):
+                                if re.search(" " + ingredient + ";", sentence_mod):
                                         help_me = sentence_mod.replace(",", ' ')
-                                        for blocks in help_me.split()[:help_me.split().index(ingredient.split()[0])]:
+                                        for blocks in help_me.split()[last_measurement_index + 1:
+                                        help_me.split().index(ingredient.split()[0])]:
+                                            blocks.replace("s ", '')
                                             if blocks in measurement_bank:
                                                 try:
                                                     try:
@@ -122,6 +132,9 @@ def parse_steps(steps, ingredients):
                                                     frac = False
                                                 if frac:
                                                     quantity = str(frac) + " " + blocks
+                                                else:
+                                                    quantity = blocks
+                                                last_measurement_index = sentence_mod.split().index(blocks)
                                         ingredient_list.update({ingredient: quantity})
                                         word_to_be_delete = ingredient
                             if ingredient not in ingredient_list:
@@ -135,8 +148,9 @@ def parse_steps(steps, ingredients):
                                             for k in holder:
                                                 holder_ingredient = holder_ingredient + k + ' '
                                             if re.search(" " + holder_ingredient, sentence_mod):
-                                                for blocks in sentence_mod.split()[
+                                                for blocks in sentence_mod.split()[last_measurement_index + 1
                                                               :sentence_mod.split().index(holder_ingredient.split()[0])]:
+                                                    blocks.replace("s ", '')
                                                     if blocks in measurement_bank:
                                                         try:
                                                             try:
@@ -148,6 +162,9 @@ def parse_steps(steps, ingredients):
                                                             frac = False
                                                         if frac:
                                                             quantity = str(frac) + " " + blocks
+                                                        else:
+                                                            quantity = blocks
+                                                        last_measurement_index = sentence_mod.split().index(blocks)
                                                 ingredient_list.update({ingredient: quantity})
                                                 word_to_be_delete = holder_ingredient
                                                 break
@@ -165,9 +182,10 @@ def parse_steps(steps, ingredients):
                                                 holder_ingredient = holder_ingredient + k + ' '
                                             holder_ingredient = holder_ingredient[:-1] + ','
                                             if re.search(" " + holder_ingredient, sentence_mod):
-                                                for blocks in sentence_mod.split()[
+                                                for blocks in sentence_mod.split()[last_measurement_index + 1
                                                               :sentence_mod.split().index(
                                                                   holder_ingredient.split()[0])]:
+                                                    blocks.replace("s ", '')
                                                     if blocks in measurement_bank:
                                                         try:
                                                             try:
@@ -185,6 +203,9 @@ def parse_steps(steps, ingredients):
                                                             frac = False
                                                         if frac:
                                                             quantity = str(frac) + " " + blocks
+                                                        else:
+                                                            quantity = blocks
+                                                        last_measurement_index = sentence_mod.split().index(blocks)
                                                 ingredient_list.update({ingredient: quantity})
                                                 word_to_be_delete = holder_ingredient
                                                 break
@@ -204,9 +225,10 @@ def parse_steps(steps, ingredients):
                                                 holder_ingredient = holder_ingredient + k + ' '
                                             holder_ingredient = holder_ingredient[:-1] + ';'
                                             if re.search(" " + holder_ingredient, sentence_mod):
-                                                for blocks in sentence_mod.split()[
+                                                for blocks in sentence_mod.split()[last_measurement_index + 1
                                                               :sentence_mod.split().index(
                                                                   holder_ingredient.split()[0])]:
+                                                    blocks.replace("s ", '')
                                                     if blocks in measurement_bank:
                                                         try:
                                                             try:
@@ -224,6 +246,9 @@ def parse_steps(steps, ingredients):
                                                             frac = False
                                                         if frac:
                                                             quantity = str(frac) + " " + blocks
+                                                        else:
+                                                            quantity = blocks
+                                                        last_measurement_index = sentence_mod.split().index(blocks)
                                                 ingredient_list.update({ingredient: quantity})
                                                 word_to_be_delete = holder_ingredient
                                                 break

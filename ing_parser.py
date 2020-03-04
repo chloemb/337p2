@@ -101,9 +101,12 @@ def parse_ingredients(ingredients):
         ing_to_add = re.sub(r'[^\w\s]', '', ' '.join(parse_this))
         if ingredients_parsed.get(ing_to_add):
             ingredients_parsed[ing_to_add]["Quantity"] = item_dict["Quantity"] + ingredients_parsed[ing_to_add]["Quantity"]
-            item_dict.setdefault('Measurement', [])
-            ingredients_parsed[ing_to_add].setdefault('Measurement', []).append(item_dict["Measurement"])
-            ingredients_parsed[ing_to_add]["Measurement"].append(item_dict["Measurement"])
+            item_dict.setdefault('Measurement', [''])
+            ingredients_parsed[ing_to_add].setdefault('Measurement', [''])
+            ingredients_parsed[ing_to_add]["Measurement"].extend(item_dict["Measurement"])
+            item_dict.setdefault('Preparation', [''])
+            ingredients_parsed[ing_to_add].setdefault('Preparation', [''])
+            ingredients_parsed[ing_to_add]["Preparation"].extend(item_dict["Preparation"])
         else:
             ingredients_parsed[ing_to_add] = item_dict
     return ingredients_parsed
