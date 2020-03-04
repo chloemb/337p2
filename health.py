@@ -19,11 +19,14 @@ def health(ingredients,recipe,steps):
         done = True
         for yummy,replace in foods.items():
             for ingredient,details in ingredients.items():
+                #print(done)
                 if decide_replace(ingredient,yummy):
+                    print("here", done, ingredient,yummy)
                     done = False
                     #print(yummy, ingredient)
                     adapt_thing(ingredients,newsteps,ingredient,replace)
                     break
+                
     for yummy,replace in methods.items():
         for verb, rest in newsteps.items():
             if verb in yummy or yummy in verb:
@@ -44,7 +47,7 @@ def decide_replace_thing(problem,steps):
     #try to figure protein recommendation based on things done to ingredients here
     #fancier version will add probabilities or something
     for replacefrom,replaceinto in foods.items():
-        if replacefrom in problem or problem in replacefrom:
+        if (replacefrom in problem or problem in replacefrom) and problem != replacefrom:
             return replaceinto
     print("Error: Caught unknown ingredient")
     #we can default to hard tofu. its the stereotype for a reason
@@ -54,6 +57,8 @@ def decide_replace_thing(problem,steps):
 
 def adapt_thing(ingredients, newsteps,problem,replace):
     #if its already there, all we have to do is add seitan and switch mentions of problem ingredient to its replacement.
+    if(problem==replace):
+        return
     try:
         ingredients[replace]['quantity'] += ingredients[problem]['quantity']
         for stepverb, stepstuff in newsteps.items():
@@ -67,7 +72,7 @@ def adapt_thing(ingredients, newsteps,problem,replace):
     #else for ingredients we make it take the quantity and details of the original
     #for steps we append basic prep for the ingredient in question
     except:
-        print(problem,replace,ingredients)
+        #print(problem,replace,ingredients)
         ingredients[replace] = ingredients[problem]
         for stepverb, stepstuff in newsteps.items():
             if problem in stepstuff['Ingredients']:
@@ -80,7 +85,8 @@ def adapt_thing(ingredients, newsteps,problem,replace):
         
 
 def adapt_method(problem, replace,newsteps,ingredients):
-
+    if problem==replace:
+        return
     newsteps[replace] = newsteps[problem]
     newsteps.pop(problem)
     for tool in newsteps[replace]["Tools"]:

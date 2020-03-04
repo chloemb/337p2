@@ -120,7 +120,7 @@ cuisines = {
                       'bay leaf', 'salt'],
         'dairy': cheese + ['cream', 'gelato'],
         'media': ['olive oil', 'balsamic vinegar', 'butter'],
-        'carb': pasta,
+        'carb': ['orzo', 'couscous'] + pasta,
         'topping': ['tomato sauce', 'marinara'],
         'fruit': ['grape', 'apple', 'olive', 'peach', 'orange', 'nectarine']
     }
@@ -173,7 +173,7 @@ descriptor_thing = {
     'oil_med': ['olive oil', 'vegetable oil', 'oil', 'butter', 'margarine'],
     'acidic_med': ['wine', 'vinegar', 'balsamic vinegar'],
     'pasta': pasta + ['ramen', 'udon', 'soba'],
-    'grain': ['rice', 'barley'],
+    'grain': ['rice', 'barley', 'orzo', 'couscous'],
     'solid_dairy': cheese,
     'cream_dairy': ['milk', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato',
                     'buttermilk', 'butter'],

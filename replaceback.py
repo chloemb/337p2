@@ -1,7 +1,7 @@
-
+import sys
 
 def replace_back_steps(alldict,stepnew):
-    #print(alldict)
+    # print(alldict)
     #print(alldict,"\n")
     #print(alldict,"\n",stepnew)
     entire_string = []
@@ -142,8 +142,11 @@ def replace_back_ingredients(parseingredients, newdict):
     return newingredients
 
 def render_recipe(ingredients, steps, bigsteps):
+    print(ingredients,"\n",steps)
     newingredients = replace_back_ingredients(bigsteps,ingredients)
     newsteps = replace_back_steps(bigsteps,steps)
+    print(newingredients,"\n",newsteps)
+    sys.exit()
     print("***INGREDIENTS***\n")
     for ingredient in newingredients:
         print(ingredient)
