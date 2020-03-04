@@ -10,6 +10,11 @@ from word_banks import toollist, measurement_bank
 list_of_time_words = ["until", "for"]
 
 def parse_steps(steps, ingredients):
+    hoot = "hoot"
+    hoot = hoot + ' '
+    hoot = hoot.replace('t ', '')
+    hoot = hoot + ' '
+    print(hoot)
     steps_by_number = {}
     #loop through the steps
     for step in steps:
@@ -18,6 +23,9 @@ def parse_steps(steps, ingredients):
         #loop through the sentences in a step
         for sentence in sentences:
             sentence_mod = sentence + " ."
+            sentence_mod = sentence_mod.replace(',', '')
+            reversed_sentence_mod = [ele for ele in reversed(sentence_mod.split())]
+            print(reversed_sentence_mod)
             sentence_dict = {}
             #tag the words in a sentence with a POS tagger
             tokens = nltk.word_tokenize(sentence_mod.lower())
@@ -29,7 +37,6 @@ def parse_steps(steps, ingredients):
             timing = ''
             part_of_time = False
             most_recent_adverb = ''
-            last_measurement_index = -1
 
             for pairs in tagged:
                 if start_verb is True:
@@ -67,17 +74,21 @@ def parse_steps(steps, ingredients):
                             quantity = ''
                             if ingredient not in ingredient_list:
                                 if re.search(" " + ingredient + " ", sentence_mod):
-                                    for blocks in sentence_mod.split()[last_measurement_index + 1:
-                                    sentence_mod.split().index(ingredient.split()[0])]:
-                                        blocks.replace("s ", '')
-                                        if blocks in measurement_bank:
+                                    for blocks in reversed_sentence_mod[reversed_sentence_mod.index(ingredient.split()[0]):]:
+                                        blocks_wout_s = blocks + ' '
+                                        blocks_wout_s = blocks_wout_s.replace("s ", '')
+                                        if blocks in measurement_bank or blocks_wout_s in measurement_bank:
+                                            print(reversed_sentence_mod[
+                                                      reversed_sentence_mod.index(blocks) + 1] + blocks)
                                             try:
                                                 try:
-                                                    frac = unicodedata.numeric(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                    frac = unicodedata.numeric(reversed_sentence_mod[
+                                                                                   reversed_sentence_mod.index(blocks) + 1])
                                                     frac = fractions.Fraction(frac)
 
                                                 except:
-                                                    frac = fractions.Fraction(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                    frac = fractions.Fraction(reversed_sentence_mod[
+                                                                                  reversed_sentence_mod.index(blocks) + 1])
 
                                             except:
                                                 frac = False
@@ -85,22 +96,28 @@ def parse_steps(steps, ingredients):
                                                 quantity = str(frac) + " " + blocks
                                             else:
                                                 quantity = blocks
-                                            last_measurement_index = sentence_mod.split().index(blocks)
+                                            quantity_to_be_delete = blocks
+                                            break
                                     ingredient_list.update({ingredient: quantity})
+                                    print()
                                     word_to_be_delete = ingredient
                                 if re.search(" " + ingredient + ",", sentence_mod):
                                     help_me = sentence_mod.replace(",", ' ')
-                                    for blocks in help_me.split()[last_measurement_index + 1:
-                                    help_me.split().index(ingredient.split()[0])]:
-                                        blocks.replace("s ", '')
-                                        if blocks in measurement_bank:
+                                    help_me = [ele for ele in reversed(help_me.split())]
+                                    for blocks in help_me[:help_me.index(ingredient.split()[0])]:
+                                        blocks_wout_s = blocks + ' '
+                                        blocks_wout_s = blocks_wout_s.replace("s ", '')
+                                        if blocks in measurement_bank or blocks_wout_s in measurement_bank:
+                                            print(reversed_sentence_mod[reversed_sentence_mod.index(blocks) + 1] + blocks)
                                             try:
                                                 try:
-                                                    frac = unicodedata.numeric(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                    frac = unicodedata.numeric(reversed_sentence_mod[
+                                                                                   reversed_sentence_mod.index(blocks) + 1])
                                                     frac = fractions.Fraction(frac)
 
                                                 except:
-                                                    frac = fractions.Fraction(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                    frac = fractions.Fraction(reversed_sentence_mod[
+                                                                                  reversed_sentence_mod.index(blocks) + 1])
 
                                             except:
                                                 frac = False
@@ -108,33 +125,38 @@ def parse_steps(steps, ingredients):
                                                 quantity = str(frac) + " " + blocks
                                             else:
                                                 quantity = blocks
-                                            last_measurement_index = sentence_mod.split().index(blocks)
+                                            quantity_to_be_delete = blocks
+                                            break
                                     ingredient_list.update({ingredient: quantity})
                                     word_to_be_delete = ingredient
                                 if re.search(" " + ingredient + ";", sentence_mod):
                                         help_me = sentence_mod.replace(",", ' ')
-                                        for blocks in help_me.split()[last_measurement_index + 1:
-                                        help_me.split().index(ingredient.split()[0])]:
-                                            blocks.replace("s ", '')
-                                            if blocks in measurement_bank:
+                                        help_me = [ele for ele in reversed(help_me.split())]
+                                        for blocks in help_me[:help_me.index(ingredient.split()[0])]:
+                                            blocks_wout_s = blocks + ' '
+                                            blocks_wout_s = blocks_wout_s.replace("s ", '')
+                                            if blocks in measurement_bank or blocks_wout_s in measurement_bank:
+                                                print(reversed_sentence_mod[
+                                                          reversed_sentence_mod.index(blocks) + 1] + blocks)
                                                 try:
                                                     try:
-                                                        frac = unicodedata.numeric(sentence_mod.split()[
-                                                                                       sentence_mod.split().index(
-                                                                                           blocks) - 1])
+                                                        frac = unicodedata.numeric(reversed_sentence_mod[
+                                                                                       reversed_sentence_mod.index(
+                                                                                           blocks) + 1])
                                                         frac = fractions.Fraction(frac)
 
                                                     except:
-                                                        frac = fractions.Fraction(sentence_mod.split()[
-                                                                                      sentence_mod.split().index(
-                                                                                          blocks) - 1])
+                                                        frac = fractions.Fraction(reversed_sentence_mod[
+                                                                                      reversed_sentence_mod.index(
+                                                                                          blocks) + 1])
                                                 except:
                                                     frac = False
                                                 if frac:
                                                     quantity = str(frac) + " " + blocks
                                                 else:
                                                     quantity = blocks
-                                                last_measurement_index = sentence_mod.split().index(blocks)
+                                                quantity_to_be_delete = blocks
+                                                break
                                         ingredient_list.update({ingredient: quantity})
                                         word_to_be_delete = ingredient
                             if ingredient not in ingredient_list:
@@ -148,23 +170,29 @@ def parse_steps(steps, ingredients):
                                             for k in holder:
                                                 holder_ingredient = holder_ingredient + k + ' '
                                             if re.search(" " + holder_ingredient, sentence_mod):
-                                                for blocks in sentence_mod.split()[last_measurement_index + 1
-                                                              :sentence_mod.split().index(holder_ingredient.split()[0])]:
-                                                    blocks.replace("s ", '')
-                                                    if blocks in measurement_bank:
+                                                for blocks in reversed_sentence_mod[
+                                                              reversed_sentence_mod.index(holder_ingredient.split()[0]):]:
+                                                    blocks_wout_s = blocks + ' '
+                                                    blocks_wout_s = blocks_wout_s.replace("s ", '')
+                                                    if blocks in measurement_bank or blocks_wout_s in measurement_bank:
+                                                        print(reversed_sentence_mod[
+                                                                  reversed_sentence_mod.index(blocks) + 1] + blocks)
                                                         try:
                                                             try:
-                                                                frac = unicodedata.numeric(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                                frac = unicodedata.numeric(reversed_sentence_mod[
+                                                                                               reversed_sentence_mod.index(blocks) + 1])
                                                                 frac = fractions.Fraction(frac)
                                                             except:
-                                                                frac = fractions.Fraction(sentence_mod.split()[sentence_mod.split().index(blocks) - 1])
+                                                                frac = fractions.Fraction(reversed_sentence_mod[
+                                                                                              reversed_sentence_mod.index(blocks) + 1])
                                                         except:
                                                             frac = False
                                                         if frac:
                                                             quantity = str(frac) + " " + blocks
                                                         else:
                                                             quantity = blocks
-                                                        last_measurement_index = sentence_mod.split().index(blocks)
+                                                        quantity_to_be_delete = blocks
+                                                        break
                                                 ingredient_list.update({ingredient: quantity})
                                                 word_to_be_delete = holder_ingredient
                                                 break
@@ -182,30 +210,33 @@ def parse_steps(steps, ingredients):
                                                 holder_ingredient = holder_ingredient + k + ' '
                                             holder_ingredient = holder_ingredient[:-1] + ','
                                             if re.search(" " + holder_ingredient, sentence_mod):
-                                                for blocks in sentence_mod.split()[last_measurement_index + 1
-                                                              :sentence_mod.split().index(
-                                                                  holder_ingredient.split()[0])]:
-                                                    blocks.replace("s ", '')
-                                                    if blocks in measurement_bank:
+                                                for blocks in reversed_sentence_mod[reversed_sentence_mod.index(
+                                                                  holder_ingredient.split()[0]):]:
+                                                    blocks_wout_s = blocks + ' '
+                                                    blocks_wout_s = blocks_wout_s.replace("s ", '')
+                                                    if blocks in measurement_bank or blocks_wout_s in measurement_bank:
+                                                        print(reversed_sentence_mod[
+                                                                  reversed_sentence_mod.index(blocks) + 1] + blocks)
                                                         try:
                                                             try:
                                                                 frac = unicodedata.numeric(
-                                                                    sentence_mod.split()[
-                                                                        sentence_mod.split().index(
-                                                                            blocks) - 1])
+                                                                    reversed_sentence_mod[
+                                                                        reversed_sentence_mod.index(
+                                                                            blocks) + 1])
                                                                 frac = fractions.Fraction(frac)
                                                             except:
                                                                 frac = fractions.Fraction(
-                                                                    sentence_mod.split()[
-                                                                        sentence_mod.split().index(
-                                                                            blocks) - 1])
+                                                                    reversed_sentence_mod[
+                                                                        reversed_sentence_mod.index(
+                                                                            blocks) + 1])
                                                         except:
                                                             frac = False
                                                         if frac:
                                                             quantity = str(frac) + " " + blocks
                                                         else:
                                                             quantity = blocks
-                                                        last_measurement_index = sentence_mod.split().index(blocks)
+                                                        quantity_to_be_delete = blocks
+                                                        break
                                                 ingredient_list.update({ingredient: quantity})
                                                 word_to_be_delete = holder_ingredient
                                                 break
@@ -225,30 +256,33 @@ def parse_steps(steps, ingredients):
                                                 holder_ingredient = holder_ingredient + k + ' '
                                             holder_ingredient = holder_ingredient[:-1] + ';'
                                             if re.search(" " + holder_ingredient, sentence_mod):
-                                                for blocks in sentence_mod.split()[last_measurement_index + 1
-                                                              :sentence_mod.split().index(
-                                                                  holder_ingredient.split()[0])]:
-                                                    blocks.replace("s ", '')
-                                                    if blocks in measurement_bank:
+                                                for blocks in reversed_sentence_mod[reversed_sentence_mod.index(
+                                                                  holder_ingredient.split()[0]):]:
+                                                    blocks_wout_s = blocks + ' '
+                                                    blocks_wout_s = blocks_wout_s.replace("s ", '')
+                                                    if blocks in measurement_bank or blocks_wout_s in measurement_bank:
+                                                        print(reversed_sentence_mod[
+                                                                  reversed_sentence_mod.index(blocks) + 1] + blocks)
                                                         try:
                                                             try:
                                                                 frac = unicodedata.numeric(
-                                                                    sentence_mod.split()[
-                                                                        sentence_mod.split().index(
-                                                                            blocks) - 1])
+                                                                    reversed_sentence_mod[
+                                                                        reversed_sentence_mod.index(
+                                                                            blocks) + 1])
                                                                 frac = fractions.Fraction(frac)
                                                             except:
                                                                 frac = fractions.Fraction(
-                                                                    sentence_mod.split()[
-                                                                        sentence_mod.split().index(
-                                                                            blocks) - 1])
+                                                                    reversed_sentence_mod[
+                                                                        reversed_sentence_mod.index(
+                                                                            blocks) + 1])
                                                         except:
                                                             frac = False
                                                         if frac:
                                                             quantity = str(frac) + " " + blocks
                                                         else:
                                                             quantity = blocks
-                                                        last_measurement_index = sentence_mod.split().index(blocks)
+                                                        quantity_to_be_delete = blocks
+                                                        break
                                                 ingredient_list.update({ingredient: quantity})
                                                 word_to_be_delete = holder_ingredient
                                                 break
@@ -258,6 +292,7 @@ def parse_steps(steps, ingredients):
                                         i = i - 1
                             if ingredient in ingredient_list:
                                 sentence_mod = sentence_mod.replace(word_to_be_delete, '', 1)
+
                         stored_info.update({"Ingredients": ingredient_list})
                     if pairs[1] == 'RB':
                         most_recent_adverb = pairs[0] + " "
@@ -266,5 +301,4 @@ def parse_steps(steps, ingredients):
             if sentence == '.':
                 del step_parsed['.']
         steps_by_number[''.join(step)] = step_parsed
-    print(steps_by_number)
     return steps_by_number
