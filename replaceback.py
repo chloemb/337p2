@@ -62,15 +62,14 @@ def recognize_ingredient(ingredient, sentence,replacement):
     return retlist
 
 def depunctuate(word):
-    # I ADDED / BACK IN HERE FOR THE PURPOSE OF FRACTIONS -chloe
-    punctuations = '\'!()-[]\{\};:\"\,<>.?@#$%^&*_~'
+    punctuations = '\'!()-[]\{\};:\"\/,<>.?@#$%^&*_~'
     for char in punctuations:
         if char in word:
             word=word.replace(char,"")
     return word
 
 def repunctuate(pword, replaceword):
-    punctuations = '\'!()-[]\{\};:\"\,<>.?@#$%^&*_~'
+    punctuations = '\'!()-[]\{\};:\"\/,<>.?@#$%^&*_~'
     for char in punctuations:
         if char == pword[-1]:
             return replaceword+char

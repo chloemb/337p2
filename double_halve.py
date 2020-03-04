@@ -21,6 +21,7 @@ def double_halve(steps, ing_dict, to_double):
         new_ing_list.append(to_append)
         ing_dict[ing]['Quantity'] = new_entry['Quantity']
     steps = add_replace_field(steps, to_double)
+    print("STEPS WITH REPLACE", steps)
     steps = make_all_verbs(steps)
     return steps, ing_dict
 
@@ -48,9 +49,9 @@ def add_replace_field(steps, to_double):
                                 new_quantity = float(frac) * 2
                             else:
                                 new_quantity = float(frac) / 2
-                            # replace_with = str(new_quantity) + ' ' + split_measure[1]
+                            replace_with = str(new_quantity) + ' ' + split_measure[1]
                             steps[large_step][sentence][verb].setdefault('replacement', []).\
-                                append((str(split_measure[0]), str(new_quantity)))
+                                append((ing_value, replace_with))
                 steps[large_step][sentence][verb].setdefault('replacement', [])
     return steps
 
