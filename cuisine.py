@@ -32,11 +32,14 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase):
                             new_ing_list.append((real_ing, new_ing))
                             # note replacement in steps
                             steps = add_replace_field(steps, real_ing, new_ing)
+                            # LEAVE THIS PRINT STATEMENT IN
+                            if new_ing not in real_ing:
+                                print("Replacing", real_ing, "with", new_ing)
                 if not_yet:
                     new_ing_list.append((real_ing, real_ing))
             sorted_ing[ing_type] = new_ing_list
 
-    print("NEW SORTED ING", sorted_ing, "\n\n")
+    # print("NEW SORTED ING", sorted_ing, "\n\n")
     #
     # print("NEW STEPS", steps)
 
@@ -46,25 +49,22 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase):
 
 
 def find_item(attributes, cuisine, ing_pair):
-    if ing_pair[1] in word_banks.cuisines[cuisine]:
+    if any(item in ing_pair[1] for item in word_banks.cuisines[cuisine]):
         return ing_pair[0]
-    if ing_pair[0] in word_banks.cuisines[cuisine]:
+    if any(item in ing_pair[0] for item in word_banks.cuisines[cuisine]):
         return ing_pair[1]
     for thing, descriptors in word_banks.thing_descriptor.items():
         if all(attr in descriptors for attr in attributes) and thing in word_banks.cuisines[cuisine]:
             for word_bank_item in word_banks.cuisines[cuisine]:
                 if thing in word_bank_item:
                     return word_bank_item
-    print("tried to find item", attributes, cuisine)
+    # print("tried to find item", attributes, cuisine)
     return "Not Found"
 
 
 def add_replace_field(steps, to_replace, replace_with):
     for large_step in steps.keys():
-        print(large_step)
         for sentence in steps[large_step].keys():
-            print(sentence)
             sentence_dict = steps[large_step][sentence]
-            print(sentence_dict)
             sentence_dict.setdefault('replacement', []).append((to_replace, replace_with))
     return steps
