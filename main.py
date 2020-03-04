@@ -59,6 +59,7 @@ elif transform == "5":
     render_recipe(new_ing, new_steps, parsed_steps)
 elif transform == "6":
     transformed_ing = health(parsed_ingredients,recipe,parsed_steps)
+    render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps)
 else:
     transformed_ing = "Not assigned"
 
