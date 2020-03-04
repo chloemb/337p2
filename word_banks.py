@@ -77,7 +77,7 @@ grains = ['amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'einkorn', 'farro
           'kamut', 'kañiwa', 'millet', 'oats', 'quinoa', 'rice', 'rye', 'sorghum', 'milo', 'spelt', 'teﬀ', 'triticale',
           'wheat', 'wild rice', 'flour', 'couscous']
 dairy = ['milk', 'butter', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato'] + cheese
-carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta', 'ramen', 'udon', 'soba', 'noodle'] + pasta
+carbs = ['rice', 'bread', 'couscous', 'cereal', 'pasta', 'ramen', 'udon', 'soba'] + pasta
 toppings = ['sauce', 'sprinkle', 'garnish', 'marinara']
 
 not_protein = ['bouillon', 'broth', 'noodle', 'seasoning']
@@ -115,7 +115,7 @@ cuisines = {
     'sorted_italian': {
         'protein': ['beef', 'prosciutto', 'chicken', 'salami', 'sausage', 'eggplant', 'ground beef'],
         'vegetable': ['tomato', 'zucchini', 'cucumber', 'mushroom', 'broccolini', 'rabe', 'arugula', 'squash', 'potato',
-                      'carrot'],
+                      'carrot', 'spinach'],
         'seasoning': ['garlic', 'parsley', 'basil', 'rosemary', 'oregano', 'caper', 'sugar', 'lime', 'lemon',
                       'bay leaf', 'salt'],
         'dairy': cheese + ['cream', 'gelato'],
@@ -172,7 +172,7 @@ descriptor_thing = {
     'sweet_seas': ['honey', 'sugar'],
     'oil_med': ['olive oil', 'vegetable oil', 'oil', 'butter', 'margarine'],
     'acidic_med': ['wine', 'vinegar', 'balsamic vinegar'],
-    'pasta': pasta + ['ramen', 'udon', 'soba', 'noodle'],
+    'pasta': pasta + ['ramen', 'udon', 'soba'],
     'grain': ['rice', 'barley'],
     'solid_dairy': cheese,
     'cream_dairy': ['milk', 'yogurt', 'yoghurt', 'cream', 'whey', 'casein', 'mayonnaise', 'gelato',
