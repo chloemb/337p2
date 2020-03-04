@@ -26,8 +26,9 @@ def replace_back_steps(alldict,stepnew):
             if verb in sentence:
                 backup = sentence
                 recognizelist = []
+                print("CHECK REPLACE", stepnew[verb])
                 for replacefrom, replaceinto in stepnew[verb]['replacement']:
-                    #print(stepnew[verb]['replacement'])
+                    # print("REPLACING HERE",stepnew[verb]['replacement'])
                     #print(replacefrom, replaceinto, finalver)
                     recognizelist += recognize_ingredient(replacefrom, sentence,replaceinto)
 
@@ -88,7 +89,7 @@ def determine_measure(dict):
         pass
     for m in measure:
         #print(m,m[:-1],m[-1])
-        if m[-1]=="s":
+        if len(m) > 0 and m[-1]=="s":
             m=m[:-1]
     if measure ==[]:
         if quantity == []:

@@ -2,7 +2,7 @@ import fractions
 import re
 import unicodedata
 import sys
-import string
+import string as str
 from word_banks import measurement_bank
 from word_banks import prep_words
 
@@ -78,7 +78,7 @@ def parse_ingredients(ingredients):
             else:
                 i += 1
 
-        # get out words ending in "ed" for preparation. also get rid of "and"
+        # get out preparation words. also get rid of "and"
         for word in parse_this:
             if any(prep_word in word for prep_word in prep_words):
                 item_dict.setdefault('Preparation', []).append(word)
@@ -99,6 +99,9 @@ def parse_ingredients(ingredients):
         # add item to parsed ingredients. if item is already in parsed ingredients, add * to it before adding. can only
         # handle a max of two same ingredients.
         ing_to_add = re.sub(r'[^\w\s]', '', ' '.join(parse_this))
+        if ' or to taste' in ing_to_add:
+            ing_to_add = ing_to_add.replace('or to taste', '')
+
         if ingredients_parsed.get(ing_to_add):
             ingredients_parsed[ing_to_add]["Quantity"] = item_dict["Quantity"] + ingredients_parsed[ing_to_add]["Quantity"]
             item_dict.setdefault('Measurement', [''])
