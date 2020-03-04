@@ -35,7 +35,9 @@ def replace_back_steps(alldict,stepnew):
                 for thing,replace in recognizelist:
                     #print(thing,replace,finalver)
                     # print(thing,replace)
+                    finalver=finalver.replace(replace,"a1b2c3asdf")
                     finalver=finalver.replace(thing,replace)
+                    finalver=finalver.replace("a1b2c3asdf", replace)
                 #print(finalver)
                 if backup != sentence:
                     stepnew.pop(verb)
@@ -48,6 +50,7 @@ def applylist(rlist,sentence):
     applied = []
     for thing,replace in rlist:
         if not any(thing in app for app in applied):
+            
             sentence = sentence.replace(thing,replace)
             applied.append(replace)
     return sentence
