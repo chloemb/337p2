@@ -58,6 +58,7 @@ elif transform == "5":
     transformed_ing = cuisine_morph('italian', parsed_steps, sorted_ings_base, sorted_ings)
 elif transform == "6":
     transformed_ing = health(parsed_ingredients,recipe,parsed_steps)
+    render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps)
 else:
     transformed_ing = "Not assigned"
 
