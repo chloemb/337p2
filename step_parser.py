@@ -122,11 +122,8 @@ def parse_steps(steps, ingredients):
                                     ingredient_list.update({ingredient: quantity})
                                     word_to_be_delete = ingredient
                                 if re.search(" " + ingredient + ";", sentence_mod):
-                                        help_me = sentence_mod.replace(",", ' ')
+                                        help_me = sentence_mod.replace(";", ' ')
                                         help_me = [ele for ele in reversed(help_me.split())]
-                                        print(holder_ingredient)
-                                        print(sentence_mod)
-                                        print(help_me)
                                         for blocks in help_me[:help_me.index(ingredient.split()[0])]:
                                             blocks_wout_s = blocks + ' '
                                             blocks_wout_s = blocks_wout_s.replace("s ", '')
