@@ -65,7 +65,7 @@ def replace_back_steps(alldict,stepnew,transform = ""):
     #print(entire_string)
     return entire_string                
 
-veg_replace = {'meat':'dish'}
+veg_replace = {'meat':'greens'}
 
 def applylist(rlist,sentence):
     applied = []

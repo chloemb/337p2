@@ -1,8 +1,9 @@
 from word_banks import descriptor_thing
 import sys
 
-def health(ingredients,recipe,steps):
-    
+
+def unhealthy(ingredients,recipe,steps):
+    #insert random honduras joke here    
     newsteps = {}
     for step,thing in steps.items():
         for why,actually in thing.items():
@@ -15,12 +16,22 @@ def health(ingredients,recipe,steps):
     #ngl Im sure theres a less ugly but still ugly way to python this but
     #literally shouldnt have to
     adaptlist = []
-
+    doubled = []
     for yummy,replace in foods.items():
         for ingredient,details in ingredients.items():
             if decide_replace(ingredient,yummy):
                 adaptlist.append((ingredient, replace))
                 #print(yummy, ingredient)
+            else:
+                if any(bad in ingredient for bad in bad_health):
+                    try:
+                        if ingredient not in doubled:
+                            print("problem")
+                            details['Quantity'] *= 2
+                            print("nonexistent")
+                            doubled.append(ingredient)
+                    except:
+                        pass
     for ingredient, replace in adaptlist:
         adapt_thing(ingredients,newsteps,ingredient,replace)
 
@@ -31,7 +42,7 @@ def health(ingredients,recipe,steps):
 
     return ingredients, newsteps
 
-        
+bad_health = ['fat','cream','cheese','lard','flavoring','seasoning','salt','sauce','oil']
 
         
 def decide_replace(problem, listentry):
@@ -57,7 +68,7 @@ def adapt_thing(ingredients, newsteps,problem,replace):
         return
     #if its already there, all we have to do is add seitan and switch mentions of problem ingredient to its replacement.
     try:
-        ingredients[replace]['Quantity'] += ingredients[problem]['Quantity']
+        ingredients[replace]['Quantity'] += ingredients[problem]['Quantity'] * 2
         for stepverb, stepstuff in newsteps.items():
             if problem in stepstuff['Ingredients']:
                 if (problem,replace) not in stepstuff['replacement']:
@@ -71,6 +82,10 @@ def adapt_thing(ingredients, newsteps,problem,replace):
     except:
         #print(problem,replace,ingredients)
         ingredients[replace] = ingredients[problem]
+        try:
+            ingredients[replace]['Quantity'] = ingredients[replace]['Quantity'] * 2
+        except:
+            pass
         for stepverb, stepstuff in newsteps.items():
             if problem in stepstuff['Ingredients']:
                 if (problem,replace) not in stepstuff['replacement']:
@@ -97,11 +112,13 @@ def adapt_method(problem, replace,newsteps,ingredients):
 #aim is to return the same dict as before, replace title, ingredients and steps
 
 #for small bits of flavor and dishes where this is supposed to be the main, seitan makes the most sense
-foods = {'butter':'margerine', 'bacon':'tempeh bacon', 'pork':'soft tofu', 'cheese':'zucchini cheese', 'sugar':'Splenda', 'steak':'chicken breast','beef':'chicken breast','sausage':'tempeh','salami':'tempeh','turkey':'chicken breast','rice':'brown rice','bread':'whole-grain bread','pasta':'whole-wheat pasta','bun':'whole-wheat bun','coffee':'decaf coffee','oil':'coconut oil','buttermilk':'plain yogurt','eggs':'egg whites','chocolate':'unsweetened cocoa'}
+foods = {'margerine':'butter', 'tempeh':'bacon', 'tofu':'pork', 'zucchini cheese':'cheese', 'Splenda':'sugar', 'chicken':'pork','beef':'pork','chicken':'pork','brown rice': 'rice','bread':'whole-grain bread','olive oil':'lard','yogurt':'sour cream','egg whites':'egg','unsweetened cocoa':'sweetened cocoa'}
+
+
 
 ignore_list = {'seasoning','bouillon'}
 
-methods = {'saute':'grill', 'fry':'boil', 'roast':'steam'}
+methods = {'grill':'saute', 'boil':'fry', 'steam':'fry'}
 methodtools = {'grill':'grill','saute':'skillet','fry':'frier', 'boil':'pot','roast':'pan','steam':'steamer'}
 
 toollist = ['dipper', 'brasero', 'fillet knife', 'skillet', 'cheesemelter', 'range', 'processor', 'oven', 'thermometer',

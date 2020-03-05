@@ -10,7 +10,7 @@ from replaceback import replace_back_steps, replace_back_ingredients,render_reci
 #from cuisine import cuisine_morph
 import sys
 from unvegetarianify import unvegetarianify
-
+from unhealth import unhealthy
 recipe = retrieve_dict()
 #Returns a dict. "Name", "Ingredients" and "Procedure" return appropriate information in a list (except name. Name is not in a list)
 
@@ -26,10 +26,10 @@ for deletething in deletelist:
 parsed_steps = parse_steps(recipe['Procedure'], parsed_ingredients)
 sorted_ings, sorted_ings_base = sorter(parsed_ingredients.keys())
 
-# print("\nRETRIEVED:", recipe, '\n')
-# print("PARSED INGREDIENTS", parsed_ingredients, '\n')
-# print("PARSED STEPS", parsed_steps, '\n')
-# print("SORTED INGREDIENTS", sorted_ings, '\n', sorted_ings_base, '\n')
+print("\nRETRIEVED:", recipe, '\n')
+print("PARSED INGREDIENTS", parsed_ingredients, '\n')
+print("PARSED STEPS", parsed_steps, '\n')
+print("SORTED INGREDIENTS", sorted_ings, '\n', sorted_ings_base, '\n')
 
 print("Transforming", recipe['Name'], "\nPlease enter the number of the transformation you'd like to apply:")
 print("1: Double Ingredients")
@@ -74,6 +74,12 @@ while True:
         # print(transformed_ing[1])
         render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps)
         sys.exit()
+    elif transform =="7":
+        print("Making", recipe['Name'], "unhealthy:")
+        transformed_ing = unhealthy(parsed_ingredients,recipe,parsed_steps)
+        # print(transformed_ing[1])
+        render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps)
+        sys.exit()        
     else:
         print("That's not an option - please try again!")
 # =======
