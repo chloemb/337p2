@@ -39,8 +39,9 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase, parsed_ings):
                                 # note replacement in steps
                                 steps = add_replace_field(steps, real_ing, new_ing)
                                 # note replacement in parsed ing
-                                new_parsed_ing[new_ing] = parsed_ings[real_ing]
-                                parsed_ings.pop(real_ing)
+                                if parsed_ings.get(real_ing):
+                                    new_parsed_ing[real_ing] = parsed_ings[real_ing]
+                                    parsed_ings.pop(real_ing)
                                 # LEAVE THIS PRINT STATEMENT IN
                                 if new_ing not in real_ing:
                                     print("REPLACING", real_ing, "with", new_ing)
