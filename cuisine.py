@@ -26,6 +26,7 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase, parsed_ings):
             for ing in ing_list:
                 # find descriptors of certain ingredient
                 descriptor = word_banks.thing_descriptor.get(ing)
+                print("ing", ing, "with descriptor", descriptor)
                 real_ing = sorted_ing_unbase[ing_type][ing_list.index(ing)]
                 if descriptor:
                     # for each kind of this certain ing type, find one in the appropriate cuisine
@@ -38,12 +39,16 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase, parsed_ings):
                                 # note replacement in steps
                                 steps = add_replace_field(steps, real_ing, new_ing)
                                 # note replacement in parsed ing
-                                new_parsed_ing[new_ing] = parsed_ings[real_ing]
+                                if parsed_ings.get(real_ing):
+                                    new_parsed_ing[real_ing] = parsed_ings[real_ing]
+                                    parsed_ings.pop(real_ing)
                                 # LEAVE THIS PRINT STATEMENT IN
                                 if new_ing not in real_ing:
                                     print("REPLACING", real_ing, "with", new_ing)
                 if ing not in been_replaced:
-                    new_parsed_ing[real_ing] = parsed_ings[real_ing]
+                    if parsed_ings.get(real_ing):
+                        new_parsed_ing[real_ing] = parsed_ings[real_ing]
+                        parsed_ings.pop(real_ing)
                     new_ing_list.append((real_ing, real_ing))
             sorted_ing[ing_type] = new_ing_list
 
@@ -55,6 +60,8 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase, parsed_ings):
     #
     # print("NEW STEPS", steps)
 
+    new_parsed_ing.update(parsed_ings)
+
     # in sorted ing tuples, the first thing is the ingredient we're replacing,
     # the second is the thing to replace it with
     steps = make_all_verbs(steps)
@@ -62,6 +69,7 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase, parsed_ings):
 
 
 def find_item(attributes, cuisine, ing_pair):
+    print("finding", attributes, cuisine)
     if any(item in ing_pair[1] for item in word_banks.cuisines[cuisine]):
         return ing_pair[0]
     if any(item in ing_pair[0] for item in word_banks.cuisines[cuisine]):
