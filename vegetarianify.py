@@ -78,7 +78,7 @@ def adapt(ingredients, newsteps,problem,recipe):
     new = decide_replace(problem,newsteps,recipe)
     #if its already there, all we have to do is add seitan and switch mentions of problem ingredient to seitan.
     try:
-        ingredients[new]['quantity'] += ingredients[new]['quantity']
+        ingredients[new]['quantity'] += ingredients[new]['Quantity']
         for stepverb, stepstuff in newsteps.items():
             if problem in stepstuff['Ingredients']:
                 if (problem,replacement) not in stepstuff['replacement']:
