@@ -11,7 +11,7 @@ pasta = ['spaghetti', 'penne', 'fettucine', 'angel hair', 'linguine', 'orzo', 'l
          'ravioli', 'cannelloni', 'tagliatette', 'tortellini', 'pappardelle', 'fusilli', 'bucatini', 'orecchiette',
          'farfalle', 'fregula', 'taglierini', 'manicotti', 'cavatappi', 'cavatelli', 'capellin', 'ziti', 'rotini']
 meat = ['chicken', 'beef', 'pork', 'steak', 'fish', 'salmon', 'bass',
-        'egg', 'tuna', 'turkey', 'halibut', 'bacon', 'veal', 'duck', 'lamb', 'cod', 'trout',
+         'tuna', 'turkey', 'halibut', 'bacon', 'veal', 'duck', 'lamb', 'cod', 'trout',
         'sausage', 'salami']
 cheese = ['mozzarella', 'parmesan', 'gorgonzola', 'ricotta', 'ovalini', 'cheddar']
 

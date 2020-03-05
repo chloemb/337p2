@@ -20,15 +20,16 @@ def unhealthy(ingredients,recipe,steps):
     for yummy,replace in foods.items():
         for ingredient,details in ingredients.items():
             if decide_replace(ingredient,yummy):
-                adaptlist.append((ingredient, replace))
+                fixreplace = compile_ingredient(ingredient,yummy,replace)
+                adaptlist.append((ingredient, fixreplace))
                 #print(yummy, ingredient)
             else:
                 if any(bad in ingredient for bad in bad_health):
                     try:
                         if ingredient not in doubled:
-                            print("problem")
+                            #print("problem")
                             details['Quantity'] *= 2
-                            print("nonexistent")
+                            #print("nonexistent")
                             doubled.append(ingredient)
                     except:
                         pass
@@ -43,6 +44,13 @@ def unhealthy(ingredients,recipe,steps):
     return ingredients, newsteps
 
 bad_health = ['fat','cream','cheese','lard','flavoring','seasoning','salt','sauce','oil']
+
+def compile_ingredient(ingredient, yummy, replace):
+    preserve = ["broth",'sauce','chunks','bouillon']
+    if any(p in ingredient for p in preserve):
+        if ingredient.replace(yummy,replace) != ingredient:
+            return ingredient.replace(yummy,replace)
+    return replace
 
         
 def decide_replace(problem, listentry):
