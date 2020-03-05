@@ -65,7 +65,7 @@ def decide_replace_thing(problem,steps):
     for replacefrom,replaceinto in foods.items():
         if (replacefrom in problem or problem in replacefrom) and problem != replacefrom:
             return replaceinto
-    print("Error: Caught unknown ingredient")
+    # print("Error: Caught unknown ingredient")
     #we can default to hard tofu. its the stereotype for a reason
     return 'hard tofu'
 

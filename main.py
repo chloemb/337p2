@@ -55,10 +55,8 @@ while True:
         sys.exit()
     elif transform == "3":
         print("Making", recipe['Name'], "Italian:")
-        print(sorted_ings)
         new_steps, new_ing = cuisine_morph('italian', parsed_steps, sorted_ings_base, sorted_ings, parsed_ingredients)
         render_recipe(new_ing, new_steps, parsed_steps)
-        print(new_steps)
         sys.exit()
     elif transform == "4":
         print("Making", recipe['Name'], "vegetarian:")

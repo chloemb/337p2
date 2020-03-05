@@ -26,7 +26,7 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase, parsed_ings):
             for ing in ing_list:
                 # find descriptors of certain ingredient
                 descriptor = word_banks.thing_descriptor.get(ing)
-                print("ing", ing, "with descriptor", descriptor)
+                # print("ing", ing, "with descriptor", descriptor)
                 real_ing = sorted_ing_unbase[ing_type][ing_list.index(ing)]
                 if descriptor:
                     # for each kind of this certain ing type, find one in the appropriate cuisine
@@ -69,7 +69,7 @@ def cuisine_morph(cuisine, steps, sorted_ing, sorted_ing_unbase, parsed_ings):
 
 
 def find_item(attributes, cuisine, ing_pair):
-    print("finding", attributes, cuisine)
+    # print("finding", attributes, cuisine)
     if any(item in ing_pair[1] for item in word_banks.cuisines[cuisine]):
         return ing_pair[0]
     if any(item in ing_pair[0] for item in word_banks.cuisines[cuisine]):
@@ -79,7 +79,7 @@ def find_item(attributes, cuisine, ing_pair):
             for word_bank_item in word_banks.cuisines[cuisine]:
                 if thing in word_bank_item:
                     return word_bank_item
-    print("tried to find item", attributes, cuisine)
+    # print("tried to find item", attributes, cuisine)
     return False
 
 
