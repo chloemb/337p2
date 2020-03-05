@@ -99,7 +99,7 @@ def adapt_method(problem, replace,newsteps,ingredients):
 #for small bits of flavor and dishes where this is supposed to be the main, seitan makes the most sense
 foods = {'butter':'margerine', 'bacon':'tempeh bacon', 'pork':'soft tofu', 'cheese':'zucchini cheese', 'sugar':'Splenda', 'steak':'chicken breast','beef':'chicken breast','sausage':'tempeh','salami':'tempeh','turkey':'chicken breast','rice':'brown rice','bread':'whole-grain bread','pasta':'whole-wheat pasta','bun':'whole-wheat bun','coffee':'decaf coffee','oil':'coconut oil','buttermilk':'plain yogurt','eggs':'egg whites','chocolate':'unsweetened cocoa'}
 
-ignore_list = {'seasoning','bouillon'}
+ignore_list = {'seasoning','bouillon','flavoring'}
 
 methods = {'saute':'grill', 'fry':'boil', 'roast':'steam'}
 methodtools = {'grill':'grill','saute':'skillet','fry':'frier', 'boil':'pot','roast':'pan','steam':'steamer'}

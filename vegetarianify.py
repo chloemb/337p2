@@ -118,4 +118,4 @@ stewey = {'title':['soup','curry','stew'],'steps':['marinate','steep','steam','b
 greenmix = {'title':['salad','greens'],'steps':['toss'],'ret':'tempeh'}
 
 #add more to these?
-edgefoods = {'bouillon':'vegetable bouillon','broth':'vegetable broth','fat':'lard','seasoning':'allspice','meat':'dish'}
+edgefoods = {'bouillon':'vegetable bouillon','broth':'vegetable broth','fat':'lard','seasoning':'allspice'}
