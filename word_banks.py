@@ -71,7 +71,7 @@ seasonings = ['adobo', 'chile powder', 'chiles', 'paprika', 'allspice', 'flavori
               'tarragon', 'thyme', 'tomato powder', 'turmeric', 'vadouvan spice',
               'vindaloo curry powder', 'vinegar powder', 'malt', 'wasabi',
               'worcestershire sauce powder', 'zaatar spice', 'sugar', 'mint', 'caper']
-media = ['wine', 'oil', 'vinegar', 'butter', 'margarine', 'broth', 'juice']
+media = ['wine', 'oil', 'vinegar', 'butter', 'margarine', 'broth', 'juice', 'sauce', 'marinara']
 # grains found here: https://wholegrainscouncil.org/whole-grains-101/whole-grains-z
 grains = ['amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'einkorn', 'farro', 'emmer', 'fonio', 'freekeh',
           'kamut', 'kañiwa', 'millet', 'oats', 'quinoa', 'rice', 'rye', 'sorghum', 'milo', 'spelt', 'teﬀ', 'triticale',
@@ -109,6 +109,14 @@ toollist = ['dipper', 'brasero', 'fillet knife', 'skillet', 'cheesemelter', 'ran
 # used in vegetarianify
 not_vegetarian = meat
 
+# used in unvegetarianify
+replace_with_meat = {'tofu': 'chicken',
+                     'tempeh': 'chicken',
+                     'lentil': 'chicken',
+                     'chickpea': 'chicken',
+                     'seitan': 'steak',
+                     'mushroom': 'steak'}
+
 # used for cuisine changes.
 # if you add something to 'italian' you must also add it to 'sorted_italian in the proper place
 cuisines = {
@@ -119,7 +127,7 @@ cuisines = {
         'seasoning': ['garlic', 'parsley', 'basil', 'rosemary', 'oregano', 'caper', 'sugar', 'lime', 'lemon',
                       'bay leaf', 'salt'],
         'dairy': cheese + ['cream', 'gelato'],
-        'media': ['olive oil', 'balsamic vinegar', 'butter'],
+        'media': ['olive oil', 'balsamic vinegar', 'butter', 'marinara'],
         'carb': ['orzo', 'couscous'] + pasta,
         'topping': ['tomato sauce', 'marinara'],
         'fruit': ['grape', 'apple', 'olive', 'peach', 'orange', 'nectarine']
@@ -160,7 +168,7 @@ descriptor_thing = {
     'healthy_food': ['chicken'] + veggies,
     'unhealthy_food': ['butter', 'bacon', 'cheese', 'sugar'],
     'light_protein': ['chicken', 'tofu', 'tempeh', 'lentil', 'chickpea'],
-    'heavy_protein': ['beef', 'bacon', 'pork', 'steak', 'mushroom', 'seitan', 'sausage', 'salami',
+    'heavy_protein': ['beef', 'bacon', 'pork', 'steak', 'seitan', 'sausage', 'salami',
                       'turkey'],
     'leafy_veg': ['arugula', 'amaranth leaves', 'artichoke', 'cabbage', 'celery', 'chicory', 'collards', 'dandelion', 'fennel',
                   'kale', 'leeks', 'lettuce', 'mustard', 'radicchio', 'sorrel', 'spinach', 'chard', 'rabe'],
@@ -171,7 +179,7 @@ descriptor_thing = {
                      'lemon', 'seasoning'],
     'sweet_seas': ['honey', 'sugar'],
     'oil_med': ['olive oil', 'vegetable oil', 'oil', 'butter', 'margarine'],
-    'acidic_med': ['wine', 'vinegar', 'balsamic vinegar'],
+    'acidic_med': ['marinara', 'wine', 'vinegar', 'balsamic vinegar', 'sauce'],
     'pasta': pasta + ['ramen', 'udon', 'soba'],
     'grain': ['rice', 'barley', 'orzo', 'couscous'],
     'solid_dairy': cheese,

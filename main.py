@@ -9,6 +9,7 @@ from health import health
 from replaceback import replace_back_steps, replace_back_ingredients,render_recipe
 #from cuisine import cuisine_morph
 import sys
+from unvegetarianify import unvegetarianify
 
 recipe = retrieve_dict()
 #Returns a dict. "Name", "Ingredients" and "Procedure" return appropriate information in a list (except name. Name is not in a list)
@@ -35,7 +36,9 @@ print("1: Double Ingredients")
 print("2: Halve Ingredients")
 print("3: Change cuisine to a more Italian style")
 print("4: Make vegetarian")
-print("5: Make healthy\n")
+print("5: Make not vegetarian")
+print("6: Make healthy")
+print("7: Make unhealthy\n")
 
 # <<<<<<< HEAD
 while True:
@@ -52,15 +55,22 @@ while True:
         sys.exit()
     elif transform == "3":
         print("Making", recipe['Name'], "Italian:")
+        print(sorted_ings)
         new_steps, new_ing = cuisine_morph('italian', parsed_steps, sorted_ings_base, sorted_ings, parsed_ingredients)
         render_recipe(new_ing, new_steps, parsed_steps)
+        print(new_steps)
         sys.exit()
     elif transform == "4":
         print("Making", recipe['Name'], "vegetarian:")
         transformed_ing = vegetarian(parsed_ingredients, recipe, parsed_steps)
-        render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps)
+        render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps,"veg")
         sys.exit()
     elif transform == "5":
+        print("Making", recipe['Name'], "not vegetarian:")
+        new_steps, new_ing = unvegetarianify(parsed_steps, sorted_ings_base, sorted_ings, parsed_ingredients, recipe['Name'])
+        render_recipe(new_ing, new_steps, parsed_steps)
+        sys.exit()
+    elif transform == "6":
         print("Making", recipe['Name'], "healthy:")
         transformed_ing = health(parsed_ingredients,recipe,parsed_steps)
         # print(transformed_ing[1])
