@@ -22,7 +22,6 @@ def replace_back_steps(alldict,stepnew):
                 pass
         recognizelist = []
         for verb in adaptlist:
-
             if verb in sentence:
                 backup = sentence
                 recognizelist = []
@@ -32,15 +31,30 @@ def replace_back_steps(alldict,stepnew):
                 for replacefrom, replaceinto in stepnew[verb]['replacement']:
                     # print("REPLACING HERE",stepnew[verb]['replacement'])
                     #print(replacefrom, replaceinto, finalver)
-                    recognizelist += recognize_ingredient(replacefrom, sentence,replaceinto)
+
+                    # basically, if the thing we are trying to put in starts with a number, we assume it's a quantity
+                    # replacement and look for replacefrom exactly in the sentence
+                    try:
+                        float(replaceinto.split()[0])
+                        is_float = True
+                    except:
+                        is_float = False
+                    if is_float:
+                        if replacefrom in sentence:
+                            recognizelist += [(replacefrom, replaceinto)]
+
+                    # if it's a not a measure, do the other thing
+                    else:
+                        recognizelist += recognize_ingredient(replacefrom, sentence,replaceinto)
                 recognizelist.sort(reverse=True,key=helper2)
+                # print("recognize list is", recognizelist)
                 for thing,replace in recognizelist:
                     #print(thing,replace,finalver)
-                    # print(thing,replace)
+                    # print("thing, replace", thing,replace)
                     finalver=finalver.replace(replace,"a1b2c3asdf")
                     finalver=finalver.replace(thing,replace)
                     finalver=finalver.replace("a1b2c3asdf", replace)
-                #print(finalver)
+                # print("finalver", finalver)
                 if backup != sentence:
                     stepnew.pop(verb)
         # print(finalver)
@@ -185,4 +199,3 @@ def render_recipe(ingredients, steps, bigsteps):
     for step in newsteps:
         print("    "+step+"\n")
     return
-    

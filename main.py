@@ -26,8 +26,8 @@ parsed_steps = parse_steps(recipe['Procedure'], parsed_ingredients)
 sorted_ings, sorted_ings_base = sorter(parsed_ingredients.keys())
 
 # print("\nRETRIEVED:", recipe, '\n')
-print("PARSED INGREDIENTS", parsed_ingredients, '\n')
-print("PARSED STEPS", parsed_steps, '\n')
+# print("PARSED INGREDIENTS", parsed_ingredients, '\n')
+# print("PARSED STEPS", parsed_steps, '\n')
 # print("SORTED INGREDIENTS", sorted_ings, '\n', sorted_ings_base, '\n')
 
 print("Transforming", recipe['Name'], "\nPlease enter the number of the transformation you'd like to apply:")
@@ -63,7 +63,7 @@ while True:
     elif transform == "5":
         print("Making", recipe['Name'], "healthy:")
         transformed_ing = health(parsed_ingredients,recipe,parsed_steps)
-        print(transformed_ing[1])
+        # print(transformed_ing[1])
         render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps)
         sys.exit()
     else:

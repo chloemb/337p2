@@ -21,9 +21,9 @@ def double_halve(steps, ing_dict, to_double):
         new_ing_list.append(to_append)
         ing_dict[ing]['Quantity'] = new_entry['Quantity']
     steps = add_replace_field(steps, to_double)
-    print("STEPS WITH REPLACE", steps)
+    # print("STEPS WITH REPLACE", steps)
     steps = make_all_verbs(steps)
-    print("STEPS WITH ONLY VERBS", steps)
+    # print("STEPS WITH ONLY VERBS", steps)
     return steps, ing_dict
 
 
