@@ -58,7 +58,7 @@ while True:
     elif transform == "4":
         print("Making", recipe['Name'], "vegetarian:")
         transformed_ing = vegetarian(parsed_ingredients, recipe, parsed_steps)
-        render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps)
+        render_recipe(transformed_ing[0],transformed_ing[1],parsed_steps,"veg")
         sys.exit()
     elif transform == "5":
         print("Making", recipe['Name'], "healthy:")

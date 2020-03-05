@@ -1,6 +1,6 @@
 import sys
 
-def replace_back_steps(alldict,stepnew):
+def replace_back_steps(alldict,stepnew,transform = ""):
     # print(alldict)
     #print(alldict,"\n")
     #print(alldict,"\n",stepnew)
@@ -57,10 +57,15 @@ def replace_back_steps(alldict,stepnew):
                 # print("finalver", finalver)
                 if backup != sentence:
                     stepnew.pop(verb)
+        if (transform == "veg"):
+            for problem, fix in veg_replace.items():
+                finalver=finalver.replace(problem,fix)
         # print(finalver)
         entire_string.append(finalver)
     #print(entire_string)
     return entire_string                
+
+veg_replace = {'meat':'dish'}
 
 def applylist(rlist,sentence):
     applied = []
@@ -189,9 +194,9 @@ def replace_back_ingredients(parseingredients, newdict):
         newingredients.append(entry)
     return newingredients
 
-def render_recipe(ingredients, steps, bigsteps):
+def render_recipe(ingredients, steps, bigsteps,transform = ""):
     newingredients = replace_back_ingredients(bigsteps,ingredients)
-    newsteps = replace_back_steps(bigsteps,steps)
+    newsteps = replace_back_steps(bigsteps,steps,transform)
     print("***INGREDIENTS***\n")
     for ingredient in newingredients:
         print(ingredient)
