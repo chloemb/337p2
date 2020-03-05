@@ -109,6 +109,14 @@ toollist = ['dipper', 'brasero', 'fillet knife', 'skillet', 'cheesemelter', 'ran
 # used in vegetarianify
 not_vegetarian = meat
 
+# used in unvegetarianify
+replace_with_meat = {'tofu': 'chicken',
+                     'tempeh': 'chicken',
+                     'lentil': 'chicken',
+                     'chickpea': 'chicken',
+                     'seitan': 'steak',
+                     'mushroom': 'steak'}
+
 # used for cuisine changes.
 # if you add something to 'italian' you must also add it to 'sorted_italian in the proper place
 cuisines = {
