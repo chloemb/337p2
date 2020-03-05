@@ -42,11 +42,12 @@ def parse_steps(steps, ingredients):
                         timing = timing + " " + pairs[0]
                     if pairs[0] in toollist:
                         #insert something here to get tools as well
-                        stored_info.update({"Tools": pairs[0]})
+                        tool_list.append(pairs[0])
                     if pairs[1] == ':' or pairs[1] == '.':
                         #if a search hits something that indicates its a new sentence, reset search
                         stored_info.update({"Times": timing})
                         stored_info.update({"Related_Verbs": verb_list})
+                        stored_info.update({"Tools": tool_list})
                         sentence_dict[''.join(most_recent_adverb + most_recent_verb)] = stored_info
                         most_recent_adverb = ''
                         start_verb = False
@@ -64,6 +65,7 @@ def parse_steps(steps, ingredients):
                         ingredient_list = {}
                         word_to_be_delete = ''
                         verb_list = []
+                        tool_list = []
                         for ingredient in ingredients:
                             quantity = ''
                             if ingredient not in ingredient_list:
@@ -122,6 +124,9 @@ def parse_steps(steps, ingredients):
                                 if re.search(" " + ingredient + ";", sentence_mod):
                                         help_me = sentence_mod.replace(",", ' ')
                                         help_me = [ele for ele in reversed(help_me.split())]
+                                        print(holder_ingredient)
+                                        print(sentence_mod)
+                                        print(help_me)
                                         for blocks in help_me[:help_me.index(ingredient.split()[0])]:
                                             blocks_wout_s = blocks + ' '
                                             blocks_wout_s = blocks_wout_s.replace("s ", '')
